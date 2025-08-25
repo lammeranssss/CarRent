@@ -6,11 +6,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarRental.ntier.DAL.Data
 {
-    public class CarRentalDbContext : DbContext
+    public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
+        : DbContext(options)
     {
-        public CarRentalDbContext(DbContextOptions<CarRentalDbContext> options) : base(options)
-        {
-        }
 
         public DbSet<CustomerEntity> Customers { get; set; }
         public DbSet<CarEntity> Cars { get; set; }

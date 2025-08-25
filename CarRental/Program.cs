@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using System.Text;
-using CarRental.ntier.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\CarRental.ntier.BLL\CarRental.ntier.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
