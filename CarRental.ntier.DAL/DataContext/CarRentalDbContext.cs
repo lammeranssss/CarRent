@@ -3,6 +3,8 @@ using CarRental.ntier.DAL.Models.Entities;
 using CarRental.ntier.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+
 
 namespace CarRental.ntier.DAL.Data
 {
@@ -20,12 +22,11 @@ namespace CarRental.ntier.DAL.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            var bookingStatusConverter = new EnumToNumberConverter<BookingStatusEnum, int>();
-            var carStatusConverter = new EnumToNumberConverter<CarStatusEnum, int>();
+            modelBuilder.HasPostgresEnum<BookingStatusEnum>();
+            modelBuilder.HasPostgresEnum<CarStatusEnum>();
 
             modelBuilder.Entity<CarEntity>()
                 .Property(c => c.CarStatus)
-                .HasConversion(carStatusConverter)
                 .HasDefaultValue(CarStatusEnum.Unknown);
 
             modelBuilder.Entity<CarEntity>()
@@ -34,7 +35,6 @@ namespace CarRental.ntier.DAL.Data
 
             modelBuilder.Entity<BookingEntity>()
                 .Property(b => b.BookingStatus)
-                .HasConversion(bookingStatusConverter)
                 .HasDefaultValue(BookingStatusEnum.Unknown);
 
             modelBuilder.Entity<BookingEntity>()
