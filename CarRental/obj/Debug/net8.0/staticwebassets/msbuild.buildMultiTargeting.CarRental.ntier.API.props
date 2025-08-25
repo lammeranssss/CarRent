@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\CarRental.ntier.API.props" />
+</Project>

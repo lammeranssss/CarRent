@@ -1,0 +1,343 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\extensions\\exceptionmiddlewareextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\extensions\\exceptionmiddlewareextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\middleware\\errordetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\middleware\\errordetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.bll\\exceptions\\custombllexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|solutionrelative:carrental.ntier.bll\\exceptions\\custombllexceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\abstractions\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\abstractions\\baseentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\datacontext\\carrentaldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\datacontext\\carrentaldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\entities\\bookingentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\entities\\bookingentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\entities\\carentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\entities\\carentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\entities\\customerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\entities\\customerentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\entities\\locationentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\entities\\locationentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\entities\\rentalentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\entities\\rentalentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\enums\\bookingstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\enums\\bookingstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\models\\enums\\carstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\models\\enums\\carstatusenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.bll\\carrental.ntier.bll.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|solutionrelative:carrental.ntier.bll\\carrental.ntier.bll.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.dal\\carrental.ntier.dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{957E6EF5-20E4-4910-89BE-603FF94B471F}|CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj|solutionrelative:carrental.ntier.dal\\carrental.ntier.dal.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental.ntier.bll\\di\\extensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6C6C254-7942-4008-A5A9-9A139FE3D78E}|CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj|solutionrelative:carrental.ntier.bll\\di\\extensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|c:\\\u0440\u0430\u0431\u043E\u0442\u0430\\carrent\\carrental\\carrental.ntier.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D48E61FC-493A-4FFB-BABD-31F28CCC427F}|CarRental\\CarRental.ntier.API.csproj|solutionrelative:carrental\\carrental.ntier.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CustomBLLExceptions.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\Exceptions\\CustomBLLExceptions.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.BLL\\Exceptions\\CustomBLLExceptions.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\Exceptions\\CustomBLLExceptions.cs",
+              "RelativeToolTip": "CarRental.ntier.BLL\\Exceptions\\CustomBLLExceptions.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAuwB8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:49:37.808Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExceptionMiddlewareExtensions.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Extensions\\ExceptionMiddlewareExtensions.cs",
+              "RelativeDocumentMoniker": "CarRental\\Extensions\\ExceptionMiddlewareExtensions.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Extensions\\ExceptionMiddlewareExtensions.cs",
+              "RelativeToolTip": "CarRental\\Extensions\\ExceptionMiddlewareExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:45:19.315Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ErrorDetails.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Middleware\\ErrorDetails.cs",
+              "RelativeDocumentMoniker": "CarRental\\Middleware\\ErrorDetails.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Middleware\\ErrorDetails.cs",
+              "RelativeToolTip": "CarRental\\Middleware\\ErrorDetails.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:40:11.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ExceptionMiddleware.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "CarRental\\Middleware\\ExceptionMiddleware.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Middleware\\ExceptionMiddleware.cs",
+              "RelativeToolTip": "CarRental\\Middleware\\ExceptionMiddleware.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAgwGYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-25T07:39:01.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "CarRental\\WeatherForecast.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\WeatherForecast.cs",
+              "RelativeToolTip": "CarRental\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:54:14.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CarEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\CarEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Entities\\CarEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\CarEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Entities\\CarEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:27:07.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Program.cs",
+              "RelativeDocumentMoniker": "CarRental\\Program.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\Program.cs",
+              "RelativeToolTip": "CarRental\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T13:09:07.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CustomerEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\CustomerEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Entities\\CustomerEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\CustomerEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Entities\\CustomerEntity.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA/wBsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:27:38.166Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "BookingEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\BookingEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Entities\\BookingEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\BookingEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Entities\\BookingEntity.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:25:52.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CarRentalDbContext.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\DataContext\\CarRentalDbContext.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\DataContext\\CarRentalDbContext.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\DataContext\\CarRentalDbContext.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\DataContext\\CarRentalDbContext.cs",
+              "ViewState": "AgIAAF4AAAAAAAAAAADwvyYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T14:11:35.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LocationEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\LocationEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Entities\\LocationEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\LocationEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Entities\\LocationEntity.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:27:53.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RentalEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\RentalEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Entities\\RentalEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Entities\\RentalEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Entities\\RentalEntity.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAcwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:29:13.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "BookingStatusEnum.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Enums\\BookingStatusEnum.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Enums\\BookingStatusEnum.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Enums\\BookingStatusEnum.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Enums\\BookingStatusEnum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:29:55.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BaseEntity.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Abstractions\\BaseEntity.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Abstractions\\BaseEntity.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Abstractions\\BaseEntity.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Abstractions\\BaseEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:26:29.787Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CarStatusEnum.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Enums\\CarStatusEnum.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\Models\\Enums\\CarStatusEnum.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\Models\\Enums\\CarStatusEnum.cs",
+              "RelativeToolTip": "CarRental.ntier.DAL\\Models\\Enums\\CarStatusEnum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-24T22:32:23.577Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Extensions.cs",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\DI\\Extensions.cs",
+              "RelativeDocumentMoniker": "CarRental.ntier.BLL\\DI\\Extensions.cs",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\DI\\Extensions.cs",
+              "RelativeToolTip": "CarRental.ntier.BLL\\DI\\Extensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T13:28:55.821Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CarRental.ntier.API.csproj",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\CarRental.ntier.API.csproj",
+              "RelativeDocumentMoniker": "CarRental\\CarRental.ntier.API.csproj",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental\\CarRental.ntier.API.csproj",
+              "RelativeToolTip": "CarRental\\CarRental.ntier.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-21T14:06:51.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CarRental.ntier.BLL.csproj",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj",
+              "RelativeDocumentMoniker": "CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj",
+              "RelativeToolTip": "CarRental.ntier.BLL\\CarRental.ntier.BLL.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-21T12:57:04.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CarRental.ntier.DAL.csproj",
+              "DocumentMoniker": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj",
+              "RelativeDocumentMoniker": "CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj",
+              "ToolTip": "C:\\\u0420\u0430\u0431\u043E\u0442\u0430\\CarRent\\CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj",
+              "RelativeToolTip": "CarRental.ntier.DAL\\CarRental.ntier.DAL.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-21T12:56:43.937Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

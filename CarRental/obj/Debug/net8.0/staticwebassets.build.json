@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "6LHGnY9bR46h9WlRknjSaQNJufaOUJ+WRUYoYH0F4zU=",
+  "Source": "CarRental.ntier.API",
+  "BasePath": "_content/CarRental.ntier.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
