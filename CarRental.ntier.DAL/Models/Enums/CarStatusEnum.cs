@@ -2,9 +2,10 @@
 {
     public enum CarStatusEnum
     {
-        Available,
-        Booked,
-        Maintenance,
-        OutOfService
+        Unknown = 0,
+        Available = 1,
+        Booked = 2,
+        Maintenance = 3,
+        OutOfService = 4
     }
 }

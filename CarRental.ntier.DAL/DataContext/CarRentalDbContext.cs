@@ -22,65 +22,59 @@ namespace CarRental.ntier.DAL.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Конфигурация для enum
-            var bookingStatusConverter = new EnumToStringConverter<BookingStatusEnum>();
-            var carStatusConverter = new EnumToStringConverter<CarStatusEnum>();
+            var bookingStatusConverter = new EnumToNumberConverter<BookingStatusEnum, int>();
+            var carStatusConverter = new EnumToNumberConverter<CarStatusEnum, int>();
 
-            // Конфигурация CarEntity
             modelBuilder.Entity<CarEntity>()
                 .Property(c => c.CarStatus)
                 .HasConversion(carStatusConverter)
-                .HasMaxLength(20);
+                .HasDefaultValue(CarStatusEnum.Unknown);
 
             modelBuilder.Entity<CarEntity>()
                 .HasIndex(c => c.LicensePlate)
                 .IsUnique();
 
-            // Конфигурация BookingEntity
             modelBuilder.Entity<BookingEntity>()
                 .Property(b => b.BookingStatus)
                 .HasConversion(bookingStatusConverter)
-                .HasMaxLength(20);
+                .HasDefaultValue(BookingStatusEnum.Unknown);
 
             modelBuilder.Entity<BookingEntity>()
                 .HasOne(b => b.Customer)
                 .WithMany(c => c.Bookings)
                 .HasForeignKey(b => b.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<BookingEntity>()
                 .HasOne(b => b.Car)
                 .WithMany(c => c.Bookings)
                 .HasForeignKey(b => b.CarId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Конфигурация RentalEntity
             modelBuilder.Entity<RentalEntity>()
                 .HasOne(r => r.Booking)
                 .WithOne(b => b.Rental)
                 .HasForeignKey<RentalEntity>(r => r.BookingId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<RentalEntity>()
                 .HasOne(r => r.PickUpLocation)
                 .WithMany(l => l.PickUpRentals)
                 .HasForeignKey(r => r.PickUpLocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<RentalEntity>()
                 .HasOne(r => r.DropOffLocation)
                 .WithMany(l => l.DropOffRentals)
                 .HasForeignKey(r => r.DropOffLocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Конфигурация LocationEntity
             modelBuilder.Entity<LocationEntity>()
                 .HasMany(l => l.Cars)
                 .WithOne(c => c.Location)
                 .HasForeignKey(c => c.LocationId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // Уникальные индексы
             modelBuilder.Entity<CustomerEntity>()
                 .HasIndex(c => c.Email)
                 .IsUnique();
