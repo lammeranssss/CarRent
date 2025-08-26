@@ -17,7 +17,7 @@ namespace CarRental.ntier.DAL.Models.Entities
 
         public Guid LocationId { get; set; }
 
-        public CarStatusEnum CarStatus { get; set; } = CarStatusEnum.Available;
+        public CarStatusEnum CarStatus { get; set; }
 
         public decimal DailyRate { get; set; }
 

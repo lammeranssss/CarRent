@@ -15,7 +15,7 @@ namespace CarRental.ntier.DAL.Models.Entities
 
         public decimal TotalPrice { get; set; }
 
-        public BookingStatusEnum BookingStatus { get; set; } = BookingStatusEnum.Pending;
+        public BookingStatusEnum BookingStatus { get; set; } 
 
         public CustomerEntity? Customer { get; set; }
 
