@@ -23,76 +23,53 @@ namespace CarRental.ntier.API.Middleware
             {
                 await _next(context);
             }
+            catch (NotFoundException ex)
+            {
+                _logger.LogWarning(ex, "Resource not found: {Message}", ex.Message);
+                await WriteErrorResponse(context, ex, HttpStatusCode.NotFound);
+            }
+            catch (BadRequestException ex)
+            {
+                _logger.LogWarning(ex, "Bad request: {Message}", ex.Message);
+                await WriteErrorResponse(context, ex, HttpStatusCode.BadRequest);
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogWarning(ex, "Validation failed: {Message}", ex.Message);
+                await WriteErrorResponse(context, ex, HttpStatusCode.BadRequest, ex.Errors);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
-                await HandleExceptionAsync(context, ex);
+                await WriteErrorResponse(context, ex, HttpStatusCode.InternalServerError);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            context.Response.ContentType = "application/json";
-
-            ErrorDetails errorDetails;
-            int statusCode;
-
-            switch (exception)
-            {
-                case NotFoundException notFoundEx:
-                    statusCode = (int)HttpStatusCode.NotFound;
-                    errorDetails = CreateErrorDetails(statusCode, notFoundEx.Message, notFoundEx.ToString(), context.TraceIdentifier);
-                    break;
-
-                case BadRequestException badRequestEx:
-                    statusCode = (int)HttpStatusCode.BadRequest;
-                    errorDetails = CreateErrorDetails(statusCode, badRequestEx.Message, badRequestEx.ToString(), context.TraceIdentifier);
-                    break;
-
-                case ValidationException validationEx:
-                    statusCode = (int)HttpStatusCode.BadRequest;
-                    errorDetails = CreateErrorDetails(
-                        statusCode,
-                        "Validation failed",
-                        validationEx.ToString(),
-                        context.TraceIdentifier,
-                        validationEx.Errors
-                    );
-                    break;
-
-                default:
-                    statusCode = (int)HttpStatusCode.InternalServerError;
-                    errorDetails = CreateErrorDetails(
-                        statusCode,
-                        _env.IsDevelopment() ? exception.Message : "An internal server error occurred",
-                        _env.IsDevelopment() ? exception.StackTrace : null,
-                        context.TraceIdentifier
-                    );
-                    break;
-            }
-
-            context.Response.StatusCode = statusCode;
-
-            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-            var json = JsonSerializer.Serialize(errorDetails, options);
-            await context.Response.WriteAsync(json);
-        }
-
-        private ErrorDetails CreateErrorDetails(
-            int statusCode,
-            string message,
-            string? details,
-            string traceId,
+        private async Task WriteErrorResponse(
+            HttpContext context,
+            Exception exception,
+            HttpStatusCode statusCode,
             Dictionary<string, string[]>? errors = null)
         {
-            return new ErrorDetails
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)statusCode;
+
+            var message = exception is ValidationException ? "Validation failed" : exception.Message;
+
+            var errorDetails = new ErrorDetails
             {
-                StatusCode = statusCode,
+                StatusCode = (int)statusCode,
                 Message = message,
-                Details = _env.IsDevelopment() ? details : null,
-                TraceId = traceId,
-                Errors = errors
+                Details = _env.IsDevelopment() ? exception.ToString() : null,
+                TraceId = context.TraceIdentifier,
+                Errors = errors,
+                Timestamp = DateTime.UtcNow
             };
+
+            await context.Response.WriteAsJsonAsync(errorDetails, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
         }
     }
 }
