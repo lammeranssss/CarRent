@@ -10,10 +10,7 @@ namespace CarRental.ntier.API.Middleware
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
 
-        public ExceptionMiddleware(
-            RequestDelegate next,
-            ILogger<ExceptionMiddleware> logger,
-            IHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -36,72 +33,66 @@ namespace CarRental.ntier.API.Middleware
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            var response = context.Response;
 
-            var errorDetails = new ErrorDetails();
+            ErrorDetails errorDetails;
+            int statusCode;
 
             switch (exception)
             {
                 case NotFoundException notFoundEx:
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
-                    errorDetails = new ErrorDetails
-                    {
-                        StatusCode = context.Response.StatusCode,
-                        Message = notFoundEx.Message,
-                        Details = _env.IsDevelopment() ? notFoundEx.ToString() : null,
-                        TraceId = context.TraceIdentifier
-                    };
+                    statusCode = (int)HttpStatusCode.NotFound;
+                    errorDetails = CreateErrorDetails(statusCode, notFoundEx.Message, notFoundEx.ToString(), context.TraceIdentifier);
                     break;
 
                 case BadRequestException badRequestEx:
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    errorDetails = new ErrorDetails
-                    {
-                        StatusCode = context.Response.StatusCode,
-                        Message = badRequestEx.Message,
-                        Details = _env.IsDevelopment() ? badRequestEx.ToString() : null,
-                        TraceId = context.TraceIdentifier
-                    };
+                    statusCode = (int)HttpStatusCode.BadRequest;
+                    errorDetails = CreateErrorDetails(statusCode, badRequestEx.Message, badRequestEx.ToString(), context.TraceIdentifier);
                     break;
 
                 case ValidationException validationEx:
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    errorDetails = new ErrorDetails
-                    {
-                        StatusCode = context.Response.StatusCode,
-                        Message = "Validation failed",
-                        Details = _env.IsDevelopment() ? validationEx.ToString() : null,
-                        Errors = validationEx.Errors,
-                        TraceId = context.TraceIdentifier
-                    };
-                    break;
-
-                case UnauthorizedAccessException:
-                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    errorDetails = new ErrorDetails
-                    {
-                        StatusCode = context.Response.StatusCode,
-                        Message = "Unauthorized access",
-                        TraceId = context.TraceIdentifier
-                    };
+                    statusCode = (int)HttpStatusCode.BadRequest;
+                    errorDetails = CreateErrorDetails(
+                        statusCode,
+                        "Validation failed",
+                        validationEx.ToString(),
+                        context.TraceIdentifier,
+                        validationEx.Errors
+                    );
                     break;
 
                 default:
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    errorDetails = new ErrorDetails
-                    {
-                        StatusCode = context.Response.StatusCode,
-                        Message = _env.IsDevelopment() ? exception.Message : "An internal server error occurred",
-                        Details = _env.IsDevelopment() ? exception.StackTrace : null,
-                        TraceId = context.TraceIdentifier
-                    };
+                    statusCode = (int)HttpStatusCode.InternalServerError;
+                    errorDetails = CreateErrorDetails(
+                        statusCode,
+                        _env.IsDevelopment() ? exception.Message : "An internal server error occurred",
+                        _env.IsDevelopment() ? exception.StackTrace : null,
+                        context.TraceIdentifier
+                    );
                     break;
             }
 
+            context.Response.StatusCode = statusCode;
+
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
             var json = JsonSerializer.Serialize(errorDetails, options);
-
             await context.Response.WriteAsync(json);
+        }
+
+        private ErrorDetails CreateErrorDetails(
+            int statusCode,
+            string message,
+            string? details,
+            string traceId,
+            Dictionary<string, string[]>? errors = null)
+        {
+            return new ErrorDetails
+            {
+                StatusCode = statusCode,
+                Message = message,
+                Details = _env.IsDevelopment() ? details : null,
+                TraceId = traceId,
+                Errors = errors
+            };
         }
     }
 }
