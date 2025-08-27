@@ -10,7 +10,6 @@ namespace CarRental.ntier.DAL.DataContext;
 public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
     : DbContext(options)
 {
-
     public DbSet<CustomerEntity> Customers { get; set; }
     public DbSet<CarEntity> Cars { get; set; }
     public DbSet<LocationEntity> Locations { get; set; }

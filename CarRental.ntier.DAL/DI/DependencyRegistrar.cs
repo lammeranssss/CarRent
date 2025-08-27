@@ -2,9 +2,11 @@
 using CarRental.ntier.DAL.DataContext;
 using CarRental.ntier.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CarRental.ntier.API.DI;
-public static class DependencyInjections
+namespace CarRental.ntier.DAL.DI;
+public static class DependencyRegistrar
 {
     public static IServiceCollection AddDalDependencies(
         this IServiceCollection services,
