@@ -16,6 +16,6 @@ namespace CarRental.ntier.DAL.Models.Entities
 
         public string LicenseNumber { get; set; }
 
-        public ICollection<BookingEntity> Bookings { get; set; } = new List<BookingEntity>();
+        public ICollection<BookingEntity> Bookings { get; set; } = [];
     }
 }
