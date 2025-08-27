@@ -9,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDatabaseServices(builder.Configuration);
-//builder.Services.RegisterBLLDependencies(builder.Configuration);
+builder.Services.AddDalDependencies(builder.Configuration);
 
 var app = builder.Build();
 

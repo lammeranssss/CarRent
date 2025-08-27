@@ -6,13 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CarRental.ntier.API.DI;
 public static class DependencyInjections
 {
-    public static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        return services;
-    }
-
-    public static IServiceCollection AddDatabaseServices(
+    public static IServiceCollection AddDalDependencies(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -24,6 +18,8 @@ public static class DependencyInjections
                 npgsqlOptions.MapEnum<BookingStatusEnum>();
                 npgsqlOptions.MapEnum<CarStatusEnum>();
             }));
+
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         return services;
     }
