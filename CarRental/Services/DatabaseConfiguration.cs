@@ -1,4 +1,4 @@
-﻿using CarRental.ntier.DAL.Data;
+﻿using CarRental.ntier.DAL.DataContext;
 using CarRental.ntier.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;

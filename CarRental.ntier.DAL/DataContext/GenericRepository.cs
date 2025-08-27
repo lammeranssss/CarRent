@@ -1,10 +1,10 @@
 ﻿using CarRental.ntier.DAL.Abstractions;
-using CarRental.ntier.DAL.Data;
+using CarRental.ntier.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace CarRental.ntier.DAL.DataContext;
-public class GenericRepository<T> : IRepository<T> where T : BaseEntity
+public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     private readonly CarRentalDbContext _context;
     private readonly DbSet<T> _dbSet;
@@ -15,30 +15,39 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<T?> GetByIdAsync(Guid id) =>
-        await _dbSet.FindAsync(id);
+    public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await _dbSet.FindAsync(new object[] { id }, cancellationToken);
 
-    public async Task<IReadOnlyList<T>> GetAllAsync() =>
-        await _dbSet.AsNoTracking().ToListAsync();
+    public async Task<T?> GetByIdAsNoTrackingAsync(Guid id, CancellationToken cancellationToken = default) =>
+        await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
-    public async Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate) =>
-        await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+    public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default) =>
+        await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
 
-    public async Task AddAsync(T entity)
+    public async Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) =>
+        await _dbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+
+    public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await _dbSet.AddAsync(entity);
+        await _dbSet.AddAsync(entity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return entity;
     }
 
-    public void Update(T entity)
+    public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Update(entity);
+        await _context.SaveChangesAsync(cancellationToken);
+        return entity;
     }
 
-    public void Remove(T entity)
+    public async Task<T> RemoveAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Remove(entity);
+        await _context.SaveChangesAsync(cancellationToken);
+        return entity;
     }
 
-    public Task<int> SaveChangesAsync() =>
-        _context.SaveChangesAsync();
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
+        _context.SaveChangesAsync(cancellationToken);
 }

@@ -10,8 +10,8 @@ namespace CarRental.ntier.DAL.Models.Entities
 
         public string Phone { get; set; }
 
-        public ICollection<CarEntity> Cars { get; set; } = new List<CarEntity>();
-        public ICollection<RentalEntity> PickUpRentals { get; set; } = new List<RentalEntity>();
-        public ICollection<RentalEntity> DropOffRentals { get; set; } = new List<RentalEntity>();
+        public ICollection<CarEntity> Cars { get; set; } = [];
+        public ICollection<RentalEntity> PickUpRentals { get; set; } = [];
+        public ICollection<RentalEntity> DropOffRentals { get; set; } = [];
     }
 }

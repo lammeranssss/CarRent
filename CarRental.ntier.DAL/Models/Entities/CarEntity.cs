@@ -24,6 +24,6 @@ namespace CarRental.ntier.DAL.Models.Entities
         public decimal Mileage { get; set; }
 
         public LocationEntity? Location { get; set; }
-        public ICollection<BookingEntity> Bookings { get; set; } = new List<BookingEntity>();
+        public ICollection<BookingEntity> Bookings { get; set; } = [];
     }
 }
