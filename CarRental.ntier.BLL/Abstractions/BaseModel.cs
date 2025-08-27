@@ -1,5 +1,5 @@
-﻿namespace CarRental.ntier.DAL.Abstractions;
-public abstract class BaseEntity
+﻿namespace CarRental.ntier.BLL.Abstractions;
+public abstract class BaseModel
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
