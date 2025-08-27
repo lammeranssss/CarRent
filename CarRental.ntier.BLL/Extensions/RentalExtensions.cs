@@ -1,6 +1,6 @@
-﻿using CarRental.ntier.BLL.Models;
+﻿using CarRental.BLL.Models;
 
-namespace CarRental.ntier.BLL.Extensions;
+namespace CarRental.BLL.Extensions;
 public static class RentalExtensions
 {
     public static bool IsActive(this RentalModel rental) =>

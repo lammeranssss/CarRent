@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.API.Models.Requests.Customers;
+﻿namespace CarRental.API.Models.Requests.Customers;
 public record CreateCustomerRequest(
     string FirstName,
     string LastName,

@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.API.Models.Responses.Rentals;
+﻿namespace CarRental.API.Models.Responses.Rentals;
 public record RentalResponse(
     Guid Id,
     DateTime CreatedAt,

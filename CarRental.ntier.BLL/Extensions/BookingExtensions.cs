@@ -1,7 +1,7 @@
-﻿using CarRental.ntier.BLL.Models;
-using CarRental.ntier.DAL.Models.Enums;
+﻿using CarRental.BLL.Models;
+using CarRental.DAL.Models.Enums;
 
-namespace CarRental.ntier.BLL.Extensions;
+namespace CarRental.BLL.Extensions;
 public static class BookingExtensions
 {
     public static bool IsActive(this BookingModel booking) =>

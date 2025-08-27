@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
-using CarRental.ntier.BLL.Exceptions;
+using CarRental.BLL.Exceptions;
 
-namespace CarRental.ntier.API.Middleware;
+namespace CarRental.API.Middleware;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;

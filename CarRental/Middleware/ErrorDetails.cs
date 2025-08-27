@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.API.Middleware;
+﻿namespace CarRental.API.Middleware;
 public class ErrorDetails
 {
     public int StatusCode { get; set; }

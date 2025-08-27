@@ -1,7 +1,7 @@
-﻿using CarRental.ntier.BLL.Abstractions;
-using CarRental.ntier.DAL.Models.Enums;
+﻿using CarRental.BLL.Abstractions;
+using CarRental.DAL.Models.Enums;
 
-namespace CarRental.ntier.BLL.Models;
+namespace CarRental.BLL.Models;
 public class LocationModel : BaseModel
 {
     public string Name { get; set; }

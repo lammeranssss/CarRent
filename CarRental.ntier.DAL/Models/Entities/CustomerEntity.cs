@@ -1,6 +1,6 @@
-﻿using CarRental.ntier.DAL.Abstractions;
+﻿using CarRental.DAL.Abstractions;
 
-namespace CarRental.ntier.DAL.Models.Entities;
+namespace CarRental.DAL.Models.Entities;
 public class CustomerEntity : BaseEntity
 {
     public string FirstName { get; set; }
@@ -15,6 +15,6 @@ public class CustomerEntity : BaseEntity
 
     public string LicenseNumber { get; set; }
 
-        public ICollection<BookingEntity> Bookings { get; set; } = [];
-    }
+    public ICollection<BookingEntity> Bookings { get; set; } = [];
 }
+

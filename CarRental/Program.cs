@@ -1,4 +1,4 @@
-using CarRental.ntier.DAL.DI;
+using CarRental.DAL.DI;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
 using System.Text;

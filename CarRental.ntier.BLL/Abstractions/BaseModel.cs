@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.BLL.Abstractions;
+﻿namespace CarRental.BLL.Abstractions;
 public abstract class BaseModel
 {
     public Guid Id { get; set; }

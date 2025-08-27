@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.API.Models.Requests.Rentals;
+﻿namespace CarRental.API.Models.Requests.Rentals;
 public record CreateRentalRequest(
     Guid BookingId,
     DateTime PickUpDate,

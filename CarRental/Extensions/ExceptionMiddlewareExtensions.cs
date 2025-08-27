@@ -1,4 +1,4 @@
-﻿using CarRental.ntier.API.Middleware;
+﻿using CarRental.API.Middleware;
 
 namespace Microsoft.AspNetCore.Builder;
 public static class ExceptionMiddlewareExtensions

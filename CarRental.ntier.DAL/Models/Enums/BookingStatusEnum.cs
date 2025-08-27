@@ -1,4 +1,4 @@
-﻿namespace CarRental.ntier.DAL.Models.Enums;
+﻿namespace CarRental.DAL.Models.Enums;
 public enum BookingStatusEnum
 {
     Unknown = 0,

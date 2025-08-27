@@ -1,9 +1,9 @@
-﻿using CarRental.ntier.DAL.Abstractions;
-using CarRental.ntier.DAL.DataContext;
+﻿using CarRental.DAL.Abstractions;
+using CarRental.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace CarRental.ntier.DAL.DataContext;
+namespace CarRental.DAL.DataContext;
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
     private readonly CarRentalDbContext _context;

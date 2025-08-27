@@ -1,7 +1,7 @@
-﻿using CarRental.ntier.DAL.Models.Enums;
-using CarRental.ntier.BLL.Models;
+﻿using CarRental.DAL.Models.Enums;
+using CarRental.BLL.Models;
 
-namespace CarRental.ntier.BLL.Extensions;
+namespace CarRental.BLL.Extensions;
 public static class CarExtensions
 {
     public static bool IsAvailableForRent(this CarModel car, DateTime startDate, DateTime endDate) =>

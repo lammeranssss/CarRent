@@ -1,12 +1,12 @@
-﻿using CarRental.ntier.DAL.Abstractions;
-using CarRental.ntier.DAL.Models.Entities;
-using CarRental.ntier.DAL.Models.Enums;
+﻿using CarRental.DAL.Abstractions;
+using CarRental.DAL.Models.Entities;
+using CarRental.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 
-namespace CarRental.ntier.DAL.DataContext;
+namespace CarRental.DAL.DataContext;
 public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
     : DbContext(options)
 {

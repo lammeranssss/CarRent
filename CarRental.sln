@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.ntier.API", "CarRental\CarRental.ntier.API.csproj", "{D48E61FC-493A-4FFB-BABD-31F28CCC427F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.API", "CarRental\CarRental.API.csproj", "{D48E61FC-493A-4FFB-BABD-31F28CCC427F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A6C6C254-7942-4008-A5A9-9A139FE3D78E} = {A6C6C254-7942-4008-A5A9-9A139FE3D78E}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.ntier.BLL", "CarRental.ntier.BLL\CarRental.ntier.BLL.csproj", "{A6C6C254-7942-4008-A5A9-9A139FE3D78E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.BLL", "CarRental.ntier.BLL\CarRental.BLL.csproj", "{A6C6C254-7942-4008-A5A9-9A139FE3D78E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{957E6EF5-20E4-4910-89BE-603FF94B471F} = {957E6EF5-20E4-4910-89BE-603FF94B471F}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.ntier.DAL", "CarRental.ntier.DAL\CarRental.ntier.DAL.csproj", "{957E6EF5-20E4-4910-89BE-603FF94B471F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.DAL", "CarRental.ntier.DAL\CarRental.DAL.csproj", "{957E6EF5-20E4-4910-89BE-603FF94B471F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

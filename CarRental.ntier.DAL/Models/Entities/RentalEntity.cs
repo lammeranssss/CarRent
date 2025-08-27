@@ -1,6 +1,6 @@
-﻿using CarRental.ntier.DAL.Abstractions;
+﻿using CarRental.DAL.Abstractions;
 
-namespace CarRental.ntier.DAL.Models.Entities;
+namespace CarRental.DAL.Models.Entities;
 public class RentalEntity : BaseEntity
 {
     public Guid BookingId { get; set; }

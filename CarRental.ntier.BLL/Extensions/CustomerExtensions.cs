@@ -1,6 +1,6 @@
-﻿using CarRental.ntier.BLL.Models;
+﻿using CarRental.BLL.Models;
 
-namespace CarRental.ntier.BLL.Extensions;
+namespace CarRental.BLL.Extensions;
 public static class CustomerExtensions
 {
     public static string GetFullName(this CustomerModel customer) =>
