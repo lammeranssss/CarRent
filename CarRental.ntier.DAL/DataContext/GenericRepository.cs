@@ -16,9 +16,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     }
 
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) =>
-        await _dbSet.FindAsync(new object[] { id }, cancellationToken);
+        await _dbSet.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
-    public async Task<T?> GetByIdAsNoTrackingAsync(Guid id, CancellationToken cancellationToken = default) =>
+    public async Task<T?> GetByIdWithNoTrackingAsync(Guid id, CancellationToken cancellationToken = default) =>
         await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
     public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default) =>
@@ -41,11 +41,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return entity;
     }
 
-    public async Task<T> RemoveAsync(T entity, CancellationToken cancellationToken = default)
+    public async Task RemoveAsync(T entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);
-        return entity;
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
