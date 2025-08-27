@@ -1,12 +1,10 @@
 ﻿using CarRental.ntier.API.Middleware;
 
-namespace Microsoft.AspNetCore.Builder
+namespace Microsoft.AspNetCore.Builder;
+public static class ExceptionMiddlewareExtensions
 {
-    public static class ExceptionMiddlewareExtensions
+    public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder builder)
     {
-        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ExceptionMiddleware>();
-        }
+        return builder.UseMiddleware<ExceptionMiddleware>();
     }
 }
