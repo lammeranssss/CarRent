@@ -1,13 +1,14 @@
-﻿using CarRental.ntier.DAL;
+﻿using CarRental.ntier.DAL.Abstractions;
+using CarRental.ntier.DAL.DataContext;
 using CarRental.ntier.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using CarRental.ntier.DAL.DataContext;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CarRental.ntier.API.Services.Configurations;
-public static class DatabaseConfiguration
+namespace CarRental.ntier.DAL.DI;
+public static class DependencyRegistrar
 {
-    public static IServiceCollection AddDatabaseServices(
+    public static IServiceCollection AddDalDependencies(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -19,6 +20,8 @@ public static class DatabaseConfiguration
                 npgsqlOptions.MapEnum<BookingStatusEnum>();
                 npgsqlOptions.MapEnum<CarStatusEnum>();
             }));
+
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         return services;
     }

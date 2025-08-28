@@ -13,3 +13,4 @@ public class LocationEntity : BaseEntity
     public ICollection<RentalEntity> PickUpRentals { get; set; } = [];
     public ICollection<RentalEntity> DropOffRentals { get; set; } = [];
 }
+

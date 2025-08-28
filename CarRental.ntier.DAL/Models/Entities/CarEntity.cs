@@ -22,6 +22,7 @@ public class CarEntity : BaseEntity
 
     public decimal Mileage { get; set; }
 
-    public LocationEntity? Location { get; set; }
-    public ICollection<BookingEntity> Bookings { get; set; } = [];
+        public LocationEntity? Location { get; set; }
+        public ICollection<BookingEntity> Bookings { get; set; } = [];
+    }
 }
