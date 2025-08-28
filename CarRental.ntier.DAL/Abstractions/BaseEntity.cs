@@ -1,4 +1,4 @@
-﻿namespace CarRental.DAL.Abstractions;
+﻿namespace CarRental.ntier.DAL.Abstractions;
 public abstract class BaseEntity
 {
     public Guid Id { get; set; }

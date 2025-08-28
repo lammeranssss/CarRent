@@ -1,7 +1,7 @@
-﻿using CarRental.DAL.Abstractions;
-using CarRental.DAL.Models.Enums;
+﻿using CarRental.ntier.DAL.Abstractions;
+using CarRental.ntier.DAL.Models.Enums;
 
-namespace CarRental.DAL.Models.Entities;
+namespace CarRental.ntier.DAL.Models.Entities;
 public class CarEntity : BaseEntity
 {
     public string Brand { get; set; }
@@ -22,6 +22,7 @@ public class CarEntity : BaseEntity
 
     public decimal Mileage { get; set; }
 
-    public LocationEntity? Location { get; set; }
-    public ICollection<BookingEntity> Bookings { get; set; } = [];
+        public LocationEntity? Location { get; set; }
+        public ICollection<BookingEntity> Bookings { get; set; } = [];
+    }
 }

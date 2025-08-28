@@ -1,7 +1,7 @@
-﻿using CarRental.DAL.Abstractions;
-using CarRental.DAL.Models.Enums;
+﻿using CarRental.ntier.DAL.Abstractions;
+using CarRental.ntier.DAL.Models.Enums;
 
-namespace CarRental.DAL.Models.Entities;
+namespace CarRental.ntier.DAL.Models.Entities;
 public class BookingEntity : BaseEntity
 {
     public DateTime StartDate { get; set; }

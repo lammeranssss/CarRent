@@ -1,4 +1,4 @@
-﻿namespace CarRental.BLL.Exceptions;
+﻿namespace CarRental.ntier.BLL.Exceptions;
 public class ValidationException : Exception
 {
     public Dictionary<string, string[]> Errors { get; }

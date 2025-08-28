@@ -1,4 +1,4 @@
-﻿namespace CarRental.API.Models.Responses.Locations;
+﻿namespace CarRental.ntier.API.Models.Responses.Locations;
 public record LocationResponse(
     Guid Id,
     DateTime CreatedAt,

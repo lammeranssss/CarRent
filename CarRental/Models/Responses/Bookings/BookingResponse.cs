@@ -1,4 +1,4 @@
-﻿namespace CarRental.API.Models.Responses.Bookings;
+﻿namespace CarRental.ntier.API.Models.Responses.Bookings;
 public record BookingResponse(
     Guid Id,
     DateTime CreatedAt,

@@ -1,6 +1,6 @@
-﻿using CarRental.DAL.Abstractions;
+﻿using CarRental.ntier.DAL.Abstractions;
 
-namespace CarRental.DAL.Models.Entities;
+namespace CarRental.ntier.DAL.Models.Entities;
 public class LocationEntity : BaseEntity
 {
     public string Name { get; set; }
@@ -13,3 +13,4 @@ public class LocationEntity : BaseEntity
     public ICollection<RentalEntity> PickUpRentals { get; set; } = [];
     public ICollection<RentalEntity> DropOffRentals { get; set; } = [];
 }
+

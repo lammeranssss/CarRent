@@ -1,7 +1,7 @@
-﻿using CarRental.DAL.Abstractions;
+﻿using CarRental.ntier.DAL.Abstractions;
 using System.Linq.Expressions;
 
-namespace CarRental.DAL.Abstractions;
+namespace CarRental.ntier.DAL.Abstractions;
 public interface IGenericRepository<T> where T : BaseEntity
 {
     Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);

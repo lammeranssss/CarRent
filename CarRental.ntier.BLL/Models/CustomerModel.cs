@@ -1,6 +1,6 @@
-﻿using CarRental.BLL.Abstractions;
+﻿using CarRental.ntier.BLL.Abstractions;
 
-namespace CarRental.BLL.Models;
+namespace CarRental.ntier.BLL.Models;
 public class CustomerModel : BaseModel
 {
     public string FirstName { get; set; }

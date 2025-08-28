@@ -1,6 +1,6 @@
-﻿using CarRental.BLL.Abstractions;
+﻿using CarRental.ntier.BLL.Abstractions;
 
-namespace CarRental.BLL.Models;
+namespace CarRental.ntier.BLL.Models;
 public class RentalModel : BaseModel
 {
     public Guid BookingId { get; set; }

@@ -1,7 +1,7 @@
-﻿using CarRental.DAL.Models.Enums;
-using CarRental.BLL.Models;
+﻿using CarRental.ntier.DAL.Models.Enums;
+using CarRental.ntier.BLL.Models;
 
-namespace CarRental.BLL.Extensions;
+namespace CarRental.ntier.BLL.Extensions;
 public static class LocationExtensions
 {
     public static int GetAvailableCarsCount(this LocationModel location) =>
