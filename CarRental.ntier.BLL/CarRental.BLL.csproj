@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.DAL\CarRental.DAL.csproj" />
+    <ProjectReference Include="..\CarRental.ntier.DAL\CarRental.DAL.csproj" />
   </ItemGroup>
 
 </Project>
