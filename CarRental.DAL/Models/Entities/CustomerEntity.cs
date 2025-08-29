@@ -15,6 +15,5 @@ public class CustomerEntity : BaseEntity
 
     public string LicenseNumber { get; set; }
 
-        public ICollection<BookingEntity> Bookings { get; set; } = [];
-    }
+    public ICollection<BookingEntity> Bookings { get; set; } = [];
 }
