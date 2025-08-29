@@ -1,0 +1,17 @@
+﻿using CarRental.BLL.Models;
+using CarRental.DAL.Models.Enums;
+
+namespace CarRental.BLL.Extensions;
+public static class BookingExtensions
+{
+    public static bool IsActive(this BookingModel booking) =>
+        booking.BookingStatus == BookingStatusEnum.Confirmed &&
+        booking.StartDate <= DateTime.UtcNow &&
+        booking.EndDate >= DateTime.UtcNow;
+
+    public static int GetDurationInDays(this BookingModel booking) =>
+        (booking.EndDate - booking.StartDate).Days;
+
+    public static bool CanBeCancelled(this BookingModel booking) =>
+        booking.BookingStatus is BookingStatusEnum.Pending or BookingStatusEnum.Confirmed;
+}
