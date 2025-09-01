@@ -3,6 +3,7 @@ using CarRental.BLL.Models;
 using CarRental.DAL.Models.Entities;
 
 namespace CarRental.BLL.Mapping;
+
 public class DalMappingProfile : Profile
 {
     public DalMappingProfile()

@@ -12,6 +12,7 @@ using CarRental.API.Models.Responses.Rentals;
 using CarRental.BLL.Models;
 
 namespace CarRental.API.Mapping;
+
 public class ApiMappingProfile : Profile
 {
     public ApiMappingProfile()
