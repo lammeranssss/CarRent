@@ -3,9 +3,9 @@ using CarRental.BLL.Models;
 using CarRental.DAL.Models.Entities;
 
 namespace CarRental.BLL.Mapping;
-public class DalToBllProfile : Profile
+public class DalMappingProfile : Profile
 {
-    public DalToBllProfile()
+    public DalMappingProfile()
     {
         CreateMap<CarEntity, CarModel>().ReverseMap();
         CreateMap<CustomerEntity, CustomerModel>().ReverseMap();

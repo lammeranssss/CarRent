@@ -1,5 +1,5 @@
-using CarRental.API.Mapping;
-using CarRental.BLL.Mapping;
+using CarRental.API.Extensions;
+using CarRental.BLL.Extensions;
 using CarRental.DAL.DI;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
@@ -13,7 +13,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddDalDependencies(builder.Configuration);
 
-builder.Services.AddAutoMapper(typeof(DalToBllProfile), typeof(ApiToBllProfile), typeof(BllToApiProfile));
+builder.Services.AddApiMappings();
+
+builder.Services.AddBllMappings();
 
 var app = builder.Build();
 
