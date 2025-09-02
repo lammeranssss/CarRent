@@ -1,4 +1,4 @@
-using CarRental.API.Extensions;
+using CarRental.API.DI;
 using CarRental.BLL.Extensions;
 using CarRental.DAL.DI;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -11,11 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDalDependencies(builder.Configuration);
-
-builder.Services.AddApiMappings();
-
-builder.Services.AddBllMappings();
+builder.Services.AddApiDependencies(builder.Configuration);
 
 var app = builder.Build();
 
