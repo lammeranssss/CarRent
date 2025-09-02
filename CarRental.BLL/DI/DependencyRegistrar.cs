@@ -1,4 +1,6 @@
-﻿using CarRental.DAL.DI;
+﻿using CarRental.BLL.Abstractions;
+using CarRental.BLL.Services;
+using CarRental.DAL.DI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,7 @@ public static class DependencyRegistrar
     {
         services.AddAutoMapper(typeof(Mapping.BllMappingProfile));
         services.AddDalDependencies(configuration);
+        services.AddScoped(typeof(IGenericService<>), typeof(GenericService<,>));
         return services;
     }
 }
