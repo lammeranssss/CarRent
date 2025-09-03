@@ -6,6 +6,7 @@ using CarRental.DAL.Models.Entities;
 
 namespace CarRental.BLL.Services;
 
-public class CarService(IGenericRepository<CarEntity> repo, IMapper mapper) : GenericService<CarModel, CarEntity>(repo, mapper), ICarService
+public class CarService(ICarRepository repository, IMapper mapper) : GenericService<CarModel, CarEntity>(repository, mapper), ICarService
 {
+    private readonly ICarRepository _repository = repository;
 }
