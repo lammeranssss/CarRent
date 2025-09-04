@@ -3,59 +3,46 @@ using CarRental.BLL.Abstractions;
 using CarRental.BLL.Models;
 using CarRental.API.Models.Requests.Customers;
 using CarRental.API.Models.Responses.Customers;
+using CarRental.API.Abstractions.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class CustomersController : ControllerBase
+public class CustomersController(ICustomerService service, IMapper mapper)
+    : CrudControllerBase<CreateCustomerRequest, CreateCustomerRequest, CustomerResponse>
 {
-    private readonly ICustomerService _service;
-    private readonly IMapper _mapper;
+    private readonly ICustomerService _service = service;
+    private readonly IMapper _mapper = mapper;
 
-    public CustomersController(ICustomerService service, IMapper mapper)
+    public override async Task<IEnumerable<CustomerResponse>> GetAll(CancellationToken cancellationToken)
     {
-        _service = service;
-        _mapper = mapper;
+        var items = await _service.GetAllAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<CustomerResponse>>(items);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<CustomerResponse>>> GetAll(CancellationToken ct)
+    public override async Task<CustomerResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var items = await _service.GetAllAsync(ct);
-        return Ok(_mapper.Map<IEnumerable<CustomerResponse>>(items));
+        var model = await _service.GetByIdAsync(id, cancellationToken);
+        return _mapper.Map<CustomerResponse>(model);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<CustomerResponse>> GetById(Guid id, CancellationToken ct)
-    {
-        var model = await _service.GetByIdAsync(id, ct);
-        if (model is null) return NotFound();
-        return Ok(_mapper.Map<CustomerResponse>(model));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<CustomerResponse>> Create(CreateCustomerRequest request, CancellationToken ct)
+    public override async Task<CustomerResponse> Create([FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CustomerModel>(request);
-        var created = await _service.AddAsync(model, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, _mapper.Map<CustomerResponse>(created));
+        var created = await _service.AddAsync(model, cancellationToken);
+        return _mapper.Map<CustomerResponse>(created);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult<CustomerResponse>> Update(Guid id, CreateCustomerRequest request, CancellationToken ct)
+    public override async Task<CustomerResponse> Update(Guid id, [FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CustomerModel>(request);
         model.Id = id;
-        var updated = await _service.UpdateAsync(model, ct);
-        return Ok(_mapper.Map<CustomerResponse>(updated));
+        var updated = await _service.UpdateAsync(model, cancellationToken);
+        return _mapper.Map<CustomerResponse>(updated);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public override async Task Delete(Guid id, CancellationToken cancellationToken)
     {
-        await _service.RemoveAsync(id, ct);
-        return NoContent();
+        await _service.RemoveAsync(id, cancellationToken);
     }
 }

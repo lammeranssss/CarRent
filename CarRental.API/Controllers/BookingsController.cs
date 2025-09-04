@@ -3,59 +3,46 @@ using CarRental.BLL.Abstractions;
 using CarRental.BLL.Models;
 using CarRental.API.Models.Requests.Bookings;
 using CarRental.API.Models.Responses.Bookings;
+using CarRental.API.Abstractions.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class BookingsController : ControllerBase
+public class BookingsController(IBookingService service, IMapper mapper)
+    : CrudControllerBase<CreateBookingRequest, CreateBookingRequest, BookingResponse>
 {
-    private readonly IBookingService _service;
-    private readonly IMapper _mapper;
+    private readonly IBookingService _service = service;
+    private readonly IMapper _mapper = mapper;
 
-    public BookingsController(IBookingService service, IMapper mapper)
+    public override async Task<IEnumerable<BookingResponse>> GetAll(CancellationToken cancellationToken)
     {
-        _service = service;
-        _mapper = mapper;
+        var items = await _service.GetAllAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<BookingResponse>>(items);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<BookingResponse>>> GetAll(CancellationToken ct)
+    public override async Task<BookingResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var items = await _service.GetAllAsync(ct);
-        return Ok(_mapper.Map<IEnumerable<BookingResponse>>(items));
+        var item = await _service.GetByIdAsync(id, cancellationToken);
+        return _mapper.Map<BookingResponse>(item);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<BookingResponse>> GetById(Guid id, CancellationToken ct)
-    {
-        var model = await _service.GetByIdAsync(id, ct);
-        if (model is null) return NotFound();
-        return Ok(_mapper.Map<BookingResponse>(model));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<BookingResponse>> Create(CreateBookingRequest request, CancellationToken ct)
+    public override async Task<BookingResponse> Create([FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<BookingModel>(request);
-        var created = await _service.AddAsync(model, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, _mapper.Map<BookingResponse>(created));
+        var created = await _service.AddAsync(model, cancellationToken);
+        return _mapper.Map<BookingResponse>(created);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult<BookingResponse>> Update(Guid id, CreateBookingRequest request, CancellationToken ct)
+    public override async Task<BookingResponse> Update(Guid id, [FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<BookingModel>(request);
         model.Id = id;
-        var updated = await _service.UpdateAsync(model, ct);
-        return Ok(_mapper.Map<BookingResponse>(updated));
+        var updated = await _service.UpdateAsync(model, cancellationToken);
+        return _mapper.Map<BookingResponse>(updated);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public override async Task Delete(Guid id, CancellationToken cancellationToken)
     {
-        await _service.RemoveAsync(id, ct);
-        return NoContent();
+        await _service.RemoveAsync(id, cancellationToken);
     }
 }

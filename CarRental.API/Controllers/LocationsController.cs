@@ -3,59 +3,46 @@ using CarRental.BLL.Abstractions;
 using CarRental.BLL.Models;
 using CarRental.API.Models.Requests.Locations;
 using CarRental.API.Models.Responses.Locations;
+using CarRental.API.Abstractions.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class LocationsController : ControllerBase
+public class LocationsController(ILocationService service, IMapper mapper)
+    : CrudControllerBase<CreateLocationRequest, CreateLocationRequest, LocationResponse>
 {
-    private readonly ILocationService _service;
-    private readonly IMapper _mapper;
+    private readonly ILocationService _service = service;
+    private readonly IMapper _mapper = mapper;
 
-    public LocationsController(ILocationService service, IMapper mapper)
+    public override async Task<IEnumerable<LocationResponse>> GetAll(CancellationToken cancellationToken)
     {
-        _service = service;
-        _mapper = mapper;
+        var items = await _service.GetAllAsync(cancellationToken);
+        return _mapper.Map<IEnumerable<LocationResponse>>(items);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<LocationResponse>>> GetAll(CancellationToken ct)
+    public override async Task<LocationResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var items = await _service.GetAllAsync(ct);
-        return Ok(_mapper.Map<IEnumerable<LocationResponse>>(items));
+        var model = await _service.GetByIdAsync(id, cancellationToken);
+        return _mapper.Map<LocationResponse>(model);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<LocationResponse>> GetById(Guid id, CancellationToken ct)
-    {
-        var model = await _service.GetByIdAsync(id, ct);
-        if (model is null) return NotFound();
-        return Ok(_mapper.Map<LocationResponse>(model));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<LocationResponse>> Create(CreateLocationRequest request, CancellationToken ct)
+    public override async Task<LocationResponse> Create([FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<LocationModel>(request);
-        var created = await _service.AddAsync(model, ct);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, _mapper.Map<LocationResponse>(created));
+        var created = await _service.AddAsync(model, cancellationToken);
+        return _mapper.Map<LocationResponse>(created);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<ActionResult<LocationResponse>> Update(Guid id, CreateLocationRequest request, CancellationToken ct)
+    public override async Task<LocationResponse> Update(Guid id, [FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<LocationModel>(request);
         model.Id = id;
-        var updated = await _service.UpdateAsync(model, ct);
-        return Ok(_mapper.Map<LocationResponse>(updated));
+        var updated = await _service.UpdateAsync(model, cancellationToken);
+        return _mapper.Map<LocationResponse>(updated);
     }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public override async Task Delete(Guid id, CancellationToken cancellationToken)
     {
-        await _service.RemoveAsync(id, ct);
-        return NoContent();
+        await _service.RemoveAsync(id, cancellationToken);
     }
 }
