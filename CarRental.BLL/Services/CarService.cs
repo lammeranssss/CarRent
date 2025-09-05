@@ -8,5 +8,4 @@ namespace CarRental.BLL.Services;
 
 public class CarService(ICarRepository repository, IMapper mapper) : GenericService<CarModel, CarEntity>(repository, mapper), ICarService
 {
-    private readonly ICarRepository _repository = repository;
 }

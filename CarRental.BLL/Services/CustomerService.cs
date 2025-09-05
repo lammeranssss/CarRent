@@ -8,5 +8,4 @@ namespace CarRental.BLL.Services;
 
 public class CustomerService(ICustomerRepository repository, IMapper mapper) : GenericService<CustomerModel, CustomerEntity>(repository, mapper), ICustomerService
 {
-    private readonly ICustomerRepository _repository = repository;
 }

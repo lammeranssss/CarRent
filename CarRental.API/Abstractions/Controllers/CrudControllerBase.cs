@@ -7,13 +7,13 @@ namespace CarRental.API.Abstractions.Controllers;
 [Route(ApiRoutes.Base)]
 public abstract class CrudControllerBase<TCreateRequest, TUpdateRequest, TResponse> : ControllerBase
 {
-    [HttpGet(ApiRoutes.GetAll)]
+    [HttpGet]
     public abstract Task<IEnumerable<TResponse>> GetAll(CancellationToken cancellationToken);
 
     [HttpGet(ApiRoutes.GetById)]
     public abstract Task<TResponse> GetById(Guid id, CancellationToken cancellationToken);
 
-    [HttpPost(ApiRoutes.Create)]
+    [HttpPost]
     public abstract Task<TResponse> Create([FromBody] TCreateRequest request, CancellationToken cancellationToken);
 
     [HttpPut(ApiRoutes.Update)]

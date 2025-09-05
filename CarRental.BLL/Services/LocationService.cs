@@ -9,5 +9,4 @@ namespace CarRental.BLL.Services;
 
 public class LocationService(ILocationRepository repository, IMapper mapper) : GenericService<LocationModel, LocationEntity>(repository, mapper), ILocationService
 {
-    private readonly ILocationRepository _repository = repository;
 }

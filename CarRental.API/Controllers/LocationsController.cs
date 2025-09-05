@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.API.Controllers;
 
-public class LocationsController(ILocationService service, IMapper mapper)
-    : CrudControllerBase<CreateLocationRequest, CreateLocationRequest, LocationResponse>
+public class LocationsController(
+    ILocationService _service,
+    IMapper _mapper
+) : CrudControllerBase<CreateLocationRequest, CreateLocationRequest, LocationResponse>
 {
-    private readonly ILocationService _service = service;
-    private readonly IMapper _mapper = mapper;
-
     public override async Task<IEnumerable<LocationResponse>> GetAll(CancellationToken cancellationToken)
     {
         var items = await _service.GetAllAsync(cancellationToken);

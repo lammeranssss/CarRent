@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.API.Controllers;
 
-public class BookingsController(IBookingService service, IMapper mapper)
-    : CrudControllerBase<CreateBookingRequest, CreateBookingRequest, BookingResponse>
+public class BookingsController(
+    IBookingService _service,
+    IMapper _mapper
+) : CrudControllerBase<CreateBookingRequest, CreateBookingRequest, BookingResponse>
 {
-    private readonly IBookingService _service = service;
-    private readonly IMapper _mapper = mapper;
-
     public override async Task<IEnumerable<BookingResponse>> GetAll(CancellationToken cancellationToken)
     {
         var items = await _service.GetAllAsync(cancellationToken);
