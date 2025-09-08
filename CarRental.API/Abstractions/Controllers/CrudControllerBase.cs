@@ -10,15 +10,15 @@ public abstract class CrudControllerBase<TCreateRequest, TUpdateRequest, TRespon
     [HttpGet]
     public abstract Task<IEnumerable<TResponse>> GetAll(CancellationToken cancellationToken);
 
-    [HttpGet(ApiRoutes.GetById)]
+    [HttpGet(ApiRoutes.ById)]
     public abstract Task<TResponse> GetById(Guid id, CancellationToken cancellationToken);
 
     [HttpPost]
     public abstract Task<TResponse> Create([FromBody] TCreateRequest request, CancellationToken cancellationToken);
 
-    [HttpPut(ApiRoutes.Update)]
+    [HttpPut(ApiRoutes.ById)]
     public abstract Task<TResponse> Update(Guid id, [FromBody] TUpdateRequest request, CancellationToken cancellationToken);
 
-    [HttpDelete(ApiRoutes.Delete)]
+    [HttpDelete(ApiRoutes.ById)]
     public abstract Task Delete(Guid id, CancellationToken cancellationToken);
 }
