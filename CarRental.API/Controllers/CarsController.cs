@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRental.API.Controllers;
 
 [ApiController]
-[Route(ApiRoutes.Base)]
+[Route(ApiRoutes.Cars.Base)]
 public class CarsController(ICarService service, IMapper mapper) : ControllerBase
 {
     private readonly ICarService _service = service;
@@ -22,7 +22,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
         return _mapper.Map<IEnumerable<CarResponse>>(items);
     }
 
-    [HttpGet(ApiRoutes.ById)]
+    [HttpGet(ApiRoutes.Cars.ById)]
     public async Task<CarResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
@@ -37,7 +37,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
         return _mapper.Map<CarResponse>(created);
     }
 
-    [HttpPut(ApiRoutes.ById)]
+    [HttpPut(ApiRoutes.Cars.ById)]
     public async Task<CarResponse> Update(Guid id, [FromBody] CreateCarRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CarModel>(request);
@@ -46,7 +46,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
         return _mapper.Map<CarResponse>(updated);
     }
 
-    [HttpDelete(ApiRoutes.ById)]
+    [HttpDelete(ApiRoutes.Cars.ById)]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

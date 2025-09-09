@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarRental.API.Controllers;
 
 [ApiController]
-[Route(ApiRoutes.Base)]
+[Route(ApiRoutes.Rentals.Base)]
 public class RentalsController(IRentalService service, IMapper mapper) : ControllerBase
 {
     private readonly IRentalService _service = service;
@@ -22,7 +22,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
         return _mapper.Map<IEnumerable<RentalResponse>>(items);
     }
 
-    [HttpGet(ApiRoutes.ById)]
+    [HttpGet(ApiRoutes.Rentals.ById)]
     public async Task<RentalResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
@@ -37,7 +37,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
         return _mapper.Map<RentalResponse>(created);
     }
 
-    [HttpPut(ApiRoutes.ById)]
+    [HttpPut(ApiRoutes.Rentals.ById)]
     public async Task<RentalResponse> Update(Guid id, [FromBody] UpdateRentalRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<RentalModel>(request);
@@ -46,7 +46,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
         return _mapper.Map<RentalResponse>(updated);
     }
 
-    [HttpDelete(ApiRoutes.ById)]
+    [HttpDelete(ApiRoutes.Rentals.ById)]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);
