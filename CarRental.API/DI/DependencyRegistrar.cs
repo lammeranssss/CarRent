@@ -1,4 +1,6 @@
 ﻿using CarRental.BLL.DI;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace CarRental.API.DI;
 
@@ -10,6 +12,8 @@ public static class DependencyRegistrar
     {
         services.AddAutoMapper(typeof(Mapping.ApiMappingProfile));
         services.AddBllDependencies(configuration);
-        return services;
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<Program>();
+        return services;    
     }
 }
