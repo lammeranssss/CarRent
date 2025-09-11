@@ -9,8 +9,7 @@ public class UpdateRentalRequestValidator : AbstractValidator<UpdateRentalReques
     public UpdateRentalRequestValidator()
     {
         RuleFor(x => x.PickUpDate)
-            .LessThan(x => x.DropOffDate)
-            .WithMessage("PickUpDate must be before DropOffDate");
+            .LessThan(x => x.DropOffDate);
 
         RuleFor(x => x.PickUpLocationId)
             .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("PickUpLocationId"));
@@ -19,7 +18,6 @@ public class UpdateRentalRequestValidator : AbstractValidator<UpdateRentalReques
             .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("DropOffLocationId"));
 
         RuleFor(x => x.FinalMileage)
-            .GreaterThanOrEqualTo(ValidatorConstants.MinimumMileage)
-            .WithMessage(ValidatorMessages.PositiveValue("Final Mileage"));
+            .GreaterThanOrEqualTo(ValidatorConstants.MinimumMileage);
     }
 }

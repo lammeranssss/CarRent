@@ -9,14 +9,13 @@ public class CreateLocationRequestValidator : AbstractValidator<CreateLocationRe
     public CreateLocationRequestValidator()
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage(ValidatorMessages.CannotBeEmpty("Name"))
-            .Length(ValidatorConstants.MinimumNameLength, ValidatorConstants.MaximumNameLength)
-            .WithMessage(ValidatorMessages.Length("Name", ValidatorConstants.MinimumNameLength, ValidatorConstants.MaximumNameLength));
+            .NotEmpty()
+            .Length(ValidatorConstants.MinimumNameLength, ValidatorConstants.MaximumNameLength);
 
         RuleFor(x => x.Address)
-            .NotEmpty().WithMessage(ValidatorMessages.CannotBeEmpty("Address"));
+            .NotEmpty();
 
         RuleFor(x => x.Phone)
-            .NotEmpty().WithMessage(ValidatorMessages.CannotBeEmpty("Phone"));
+            .NotEmpty();
     }
 }

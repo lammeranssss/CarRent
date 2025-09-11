@@ -15,7 +15,6 @@ public class CreateBookingRequestValidator : AbstractValidator<CreateBookingRequ
             .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("CarId"));
 
         RuleFor(x => x.StartDate)
-            .LessThan(x => x.EndDate)
-            .WithMessage("StartDate must be before EndDate");
+            .LessThan(x => x.EndDate);
     }
 }
