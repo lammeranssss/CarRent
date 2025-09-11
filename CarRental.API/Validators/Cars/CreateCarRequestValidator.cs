@@ -29,6 +29,6 @@ public class CreateCarRequestValidator : AbstractValidator<CreateCarRequest>
             .GreaterThanOrEqualTo(ValidatorConstants.MinimumDailyRate);
 
         RuleFor(x => x.LocationId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("LocationId"));
+            .NotEmpty();
     }
 }

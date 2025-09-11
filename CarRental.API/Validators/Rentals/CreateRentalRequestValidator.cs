@@ -9,16 +9,16 @@ public class CreateRentalRequestValidator : AbstractValidator<CreateRentalReques
     public CreateRentalRequestValidator()
     {
         RuleFor(x => x.BookingId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("BookingId"));
+            .NotEmpty();
 
         RuleFor(x => x.PickUpDate)
             .LessThan(x => x.DropOffDate);
 
         RuleFor(x => x.PickUpLocationId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("PickUpLocationId"));
+            .NotEmpty();
 
         RuleFor(x => x.DropOffLocationId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("DropOffLocationId"));
+            .NotEmpty();
 
         RuleFor(x => x.InitialMileage)
             .GreaterThanOrEqualTo(ValidatorConstants.MinimumMileage);

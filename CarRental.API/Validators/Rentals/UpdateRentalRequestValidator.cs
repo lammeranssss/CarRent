@@ -12,10 +12,10 @@ public class UpdateRentalRequestValidator : AbstractValidator<UpdateRentalReques
             .LessThan(x => x.DropOffDate);
 
         RuleFor(x => x.PickUpLocationId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("PickUpLocationId"));
+            .NotEmpty();
 
         RuleFor(x => x.DropOffLocationId)
-            .NotEqual(Guid.Empty).WithMessage(ValidatorMessages.Required("DropOffLocationId"));
+            .NotEmpty();
 
         RuleFor(x => x.FinalMileage)
             .GreaterThanOrEqualTo(ValidatorConstants.MinimumMileage);
