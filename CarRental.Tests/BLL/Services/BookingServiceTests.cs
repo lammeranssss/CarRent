@@ -1,108 +1,106 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using CarRental.BLL.Mapping;
 using CarRental.BLL.Models;
 using CarRental.BLL.Services;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using CarRental.Tests.BLL.AutoData;
 
-namespace CarRental.Tests.BLL.Services;
+namespace CarRental.Tests.BLL.Services; 
 
 public class BookingServiceTests
 {
-    private readonly IFixture _fixture;
-    private readonly IBookingRepository _repository;
-    private readonly Mapper _mapper;
-    private readonly BookingService _sut;
-
-    public BookingServiceTests()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnBookingModel_WhenBookingExists(
+        BookingEntity bookingEntity,
+        BookingModel bookingModel,
+        [Frozen] IBookingRepository repository,
+        [Frozen] IMapper mapper,
+        BookingService bookingService) 
     {
-        _fixture = new Fixture();
-        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
-        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        // Arrange
+        bookingModel.Id = bookingEntity.Id;
 
-        _repository = Substitute.For<IBookingRepository>();
+        repository.GetByIdWithNoTrackingAsync(bookingEntity.Id, default).Returns(bookingEntity);
+        mapper.Map<BookingModel>(bookingEntity).Returns(bookingModel);
 
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        var expression = new MapperConfigurationExpression();
-        expression.AddProfile<BllMappingProfile>();
-        var config = new MapperConfiguration(expression, loggerFactory);
-        _mapper = new Mapper(config);
+        // Act
+        var result = await bookingService.GetByIdAsync(bookingEntity.Id);
 
-        _sut = new BookingService(_repository, _mapper);
-    }
-
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnBookingModel_WhenBookingExists()
-    {
-        var bookingEntity = _fixture.Build<BookingEntity>()
-            .Without(b => b.Customer)
-            .Without(b => b.Car)
-            .Without(b => b.Rental)
-            .Create();
-
-        _repository.GetByIdWithNoTrackingAsync(bookingEntity.Id, default).Returns(bookingEntity);
-
-        var result = await _sut.GetByIdAsync(bookingEntity.Id);
-
+        // Assert
         result.ShouldNotBeNull();
-        result!.Id.ShouldBe(bookingEntity.Id);
+        result.ShouldBe(bookingModel);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnNull_WhenBookingNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenBookingNotFound(
+        Guid bookingId,
+        [Frozen] IBookingRepository repository,
+        [Frozen] IMapper mapper,
+        BookingService bookingService)
     {
-        _repository.GetByIdWithNoTrackingAsync(Arg.Any<Guid>(), default).Returns((BookingEntity?)null);
+        // Arrange
+        repository.GetByIdWithNoTrackingAsync(bookingId, default).Returns((BookingEntity?)null);
 
-        var result = await _sut.GetByIdAsync(Guid.NewGuid());
+        mapper.Map<BookingModel>((BookingEntity)null!).Returns((BookingModel)null!);
 
+        // Act
+        var result = await bookingService.GetByIdAsync(bookingId);
+
+        // Assert
         result.ShouldBeNull();
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task AddAsync_ShouldMapAndReturnBookingModel()
+    [Theory, AutoDataCustomized]
+    public async Task AddAsync_ShouldMapAndReturnBookingModel_WhenCalledWithModel(
+        BookingModel bookingModel,
+        BookingEntity bookingEntity,
+        [Frozen] IBookingRepository repository,
+        [Frozen] IMapper mapper,
+        BookingService bookingService)
     {
-        var bookingModel = _fixture.Build<BookingModel>()
-            .Without(b => b.Customer)
-            .Without(b => b.Car)
-            .Without(b => b.Rental)
-            .Create();
+        // Arrange
+        mapper.Map<BookingEntity>(bookingModel).Returns(bookingEntity);
+        repository.AddAsync(bookingEntity, default).Returns(bookingEntity);
+        mapper.Map<BookingModel>(bookingEntity).Returns(bookingModel);
 
-        var bookingEntity = _mapper.Map<BookingEntity>(bookingModel);
+        // Act
+        var result = await bookingService.AddAsync(bookingModel);
 
-        _repository.AddAsync(Arg.Any<BookingEntity>(), default).Returns(bookingEntity);
-
-        var result = await _sut.AddAsync(bookingModel);
-
+        // Assert
         result.ShouldNotBeNull();
         result.Id.ShouldBe(bookingModel.Id);
-        await _repository.Received(1).AddAsync(Arg.Any<BookingEntity>(), default);
+        await repository.Received(1).AddAsync(bookingEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldCallRepositoryRemove_WhenBookingExists()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldCallRepositoryRemove_WhenBookingExists(
+        BookingEntity bookingEntity,
+        [Frozen] IBookingRepository repository,
+        BookingService bookingService)
     {
-        var bookingEntity = _fixture.Build<BookingEntity>()
-            .Without(b => b.Customer)
-            .Without(b => b.Car)
-            .Without(b => b.Rental)
-            .Create();
+        // Arrange
+        repository.GetByIdAsync(bookingEntity.Id, default).Returns(bookingEntity);
 
-        _repository.GetByIdAsync(bookingEntity.Id, default).Returns(bookingEntity);
+        // Act
+        await bookingService.RemoveAsync(bookingEntity.Id);
 
-        await _sut.RemoveAsync(bookingEntity.Id);
-
-        await _repository.Received(1).RemoveAsync(bookingEntity, default);
+        // Assert
+        await repository.Received(1).RemoveAsync(bookingEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldThrow_WhenBookingNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldThrowKeyNotFoundException_WhenBookingNotFound(
+        Guid bookingId,
+        [Frozen] IBookingRepository repository,
+        BookingService bookingService)
     {
-        _repository.GetByIdAsync(Arg.Any<Guid>(), default).Returns((BookingEntity?)null);
+        // Arrange
+        repository.GetByIdAsync(bookingId, default).Returns((BookingEntity?)null);
 
-        await Should.ThrowAsync<KeyNotFoundException>(() => _sut.RemoveAsync(Guid.NewGuid()));
+        // Act & Assert
+        await Should.ThrowAsync<KeyNotFoundException>(() => bookingService.RemoveAsync(bookingId));
     }
 }

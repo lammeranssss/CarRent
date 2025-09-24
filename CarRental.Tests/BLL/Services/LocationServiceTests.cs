@@ -1,11 +1,10 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using CarRental.BLL.Mapping;
 using CarRental.BLL.Models;
 using CarRental.BLL.Services;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
-using Microsoft.Extensions.Logging;
+using CarRental.Tests.BLL.AutoData;
 using NSubstitute;
 using Shouldly;
 
@@ -13,96 +12,95 @@ namespace CarRental.Tests.BLL.Services;
 
 public class LocationServiceTests
 {
-    private readonly IFixture _fixture;
-    private readonly ILocationRepository _repository;
-    private readonly Mapper _mapper;
-    private readonly LocationService _sut;
-
-    public LocationServiceTests()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnLocationModel_WhenLocationExists(
+        LocationEntity locationEntity,
+        LocationModel locationModel,
+        [Frozen] ILocationRepository repository,
+        [Frozen] IMapper mapper,
+        LocationService locationService)
     {
-        _fixture = new Fixture();
-        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
-        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        // Arrange
+        locationModel.Id = locationEntity.Id;
 
-        _repository = Substitute.For<ILocationRepository>();
+        repository.GetByIdWithNoTrackingAsync(locationEntity.Id, default).Returns(locationEntity);
+        mapper.Map<LocationModel>(locationEntity).Returns(locationModel);
 
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        var expression = new MapperConfigurationExpression();
-        expression.AddProfile<BllMappingProfile>();
-        var config = new MapperConfiguration(expression, loggerFactory);
-        _mapper = new Mapper(config);
+        // Act
+        var result = await locationService.GetByIdAsync(locationEntity.Id);
 
-        _sut = new LocationService(_repository, _mapper);
-    }
-
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnLocationModel_WhenLocationExists()
-    {
-        var locationEntity = _fixture.Build<LocationEntity>()
-            .Without(l => l.Cars)
-            .Without(l => l.PickUpRentals)
-            .Without(l => l.DropOffRentals)
-            .Create();
-
-        _repository.GetByIdWithNoTrackingAsync(locationEntity.Id, default).Returns(locationEntity);
-
-        var result = await _sut.GetByIdAsync(locationEntity.Id);
-
+        // Assert
         result.ShouldNotBeNull();
-        result!.Id.ShouldBe(locationEntity.Id);
+        result.ShouldBe(locationModel);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnNull_WhenLocationNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenLocationNotFound(
+        Guid locationId,
+        [Frozen] ILocationRepository repository,
+        [Frozen] IMapper mapper,
+        LocationService locationService)
     {
-        _repository.GetByIdWithNoTrackingAsync(Arg.Any<Guid>(), default).Returns((LocationEntity?)null);
+        // Arrange
+        repository.GetByIdWithNoTrackingAsync(locationId, default).Returns((LocationEntity?)null);
 
-        var result = await _sut.GetByIdAsync(Guid.NewGuid());
+        mapper.Map<LocationModel>((LocationEntity)null!).Returns((LocationModel)null!);
 
+        // Act
+        var result = await locationService.GetByIdAsync(locationId);
+
+        // Assert
         result.ShouldBeNull();
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task AddAsync_ShouldMapAndReturnLocationModel()
+    [Theory, AutoDataCustomized]
+    public async Task AddAsync_ShouldMapAndReturnLocationModel(
+        LocationModel locationModel,
+        LocationEntity locationEntity,
+        [Frozen] ILocationRepository repository,
+        [Frozen] IMapper mapper,
+        LocationService locationService)
     {
-        var model = _fixture.Build<LocationModel>()
-            .Without(l => l.Cars)
-            .Without(l => l.PickUpRentals)
-            .Without(l => l.DropOffRentals)
-            .Create();
+        // Arrange
+        mapper.Map<LocationEntity>(locationModel).Returns(locationEntity);
+        repository.AddAsync(locationEntity, default).Returns(locationEntity);
+        mapper.Map<LocationModel>(locationEntity).Returns(locationModel);
 
-        var entity = _mapper.Map<LocationEntity>(model);
+        // Act
+        var result = await locationService.AddAsync(locationModel);
 
-        _repository.AddAsync(Arg.Any<LocationEntity>(), default).Returns(entity);
-
-        var result = await _sut.AddAsync(model);
-
+        // Assert
         result.ShouldNotBeNull();
-        result.Id.ShouldBe(model.Id);
-        await _repository.Received(1).AddAsync(Arg.Any<LocationEntity>(), default);
+        result.Id.ShouldBe(locationModel.Id);
+        await repository.Received(1).AddAsync(locationEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldCallRepositoryRemove_WhenLocationExists()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldCallRepositoryRemove_WhenLocationExists(
+        LocationEntity locationEntity,
+        [Frozen] ILocationRepository repository,
+        LocationService locationService)
     {
-        var locationEntity = _fixture.Build<LocationEntity>()
-            .Without(l => l.Cars)
-            .Without(l => l.PickUpRentals)
-            .Without(l => l.DropOffRentals)
-            .Create();
+        // Arrange
+        repository.GetByIdAsync(locationEntity.Id, default).Returns(locationEntity);
 
-        _repository.GetByIdAsync(locationEntity.Id, default).Returns(locationEntity);
+        // Act
+        await locationService.RemoveAsync(locationEntity.Id);
 
-        await _sut.RemoveAsync(locationEntity.Id);
-
-        await _repository.Received(1).RemoveAsync(locationEntity, default);
+        // Assert
+        await repository.Received(1).RemoveAsync(locationEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldThrow_WhenLocationNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldThrowKeyNotFoundException_WhenLocationNotFound(
+        Guid locationId,
+        [Frozen] ILocationRepository repository,
+        LocationService locationService)
     {
-        _repository.GetByIdAsync(Arg.Any<Guid>(), default).Returns((LocationEntity?)null);
+        // Arrange
+        repository.GetByIdAsync(locationId, default).Returns((LocationEntity?)null);
 
-        await Should.ThrowAsync<KeyNotFoundException>(() => _sut.RemoveAsync(Guid.NewGuid()));
+        // Act & Assert
+        await Should.ThrowAsync<KeyNotFoundException>(() => locationService.RemoveAsync(locationId));
     }
 }

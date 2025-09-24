@@ -1,11 +1,10 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using CarRental.BLL.Mapping;
 using CarRental.BLL.Models;
 using CarRental.BLL.Services;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
-using Microsoft.Extensions.Logging;
+using CarRental.Tests.BLL.AutoData;
 using NSubstitute;
 using Shouldly;
 
@@ -13,96 +12,95 @@ namespace CarRental.Tests.BLL.Services;
 
 public class RentalServiceTests
 {
-    private readonly IFixture _fixture;
-    private readonly IRentalRepository _repository;
-    private readonly Mapper _mapper;
-    private readonly RentalService _sut;
-
-    public RentalServiceTests()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnRentalModel_WhenRentalExists(
+        RentalEntity rentalEntity,
+        RentalModel rentalModel,
+        [Frozen] IRentalRepository repository,
+        [Frozen] IMapper mapper,
+        RentalService rentalService)
     {
-        _fixture = new Fixture();
-        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
-        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        // Arrange
+        rentalModel.Id = rentalEntity.Id;
 
-        _repository = Substitute.For<IRentalRepository>();
+        repository.GetByIdWithNoTrackingAsync(rentalEntity.Id, default).Returns(rentalEntity);
+        mapper.Map<RentalModel>(rentalEntity).Returns(rentalModel);
 
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        var expression = new MapperConfigurationExpression();
-        expression.AddProfile<BllMappingProfile>();
-        var config = new MapperConfiguration(expression, loggerFactory);
-        _mapper = new Mapper(config);
+        // Act
+        var result = await rentalService.GetByIdAsync(rentalEntity.Id);
 
-        _sut = new RentalService(_repository, _mapper);
-    }
-
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnRentalModel_WhenRentalExists()
-    {
-        var rentalEntity = _fixture.Build<RentalEntity>()
-            .Without(r => r.Booking)
-            .Without(r => r.PickUpLocation)
-            .Without(r => r.DropOffLocation)
-            .Create();
-
-        _repository.GetByIdWithNoTrackingAsync(rentalEntity.Id, default).Returns(rentalEntity);
-
-        var result = await _sut.GetByIdAsync(rentalEntity.Id);
-
+        // Assert
         result.ShouldNotBeNull();
-        result!.Id.ShouldBe(rentalEntity.Id);
+        result.ShouldBe(rentalModel);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnNull_WhenRentalNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenRentalNotFound(
+        Guid rentalId,
+        [Frozen] IRentalRepository repository,
+        [Frozen] IMapper mapper,
+        RentalService rentalService)
     {
-        _repository.GetByIdWithNoTrackingAsync(Arg.Any<Guid>(), default).Returns((RentalEntity?)null);
+        // Arrange
+        repository.GetByIdWithNoTrackingAsync(rentalId, default).Returns((RentalEntity?)null);
 
-        var result = await _sut.GetByIdAsync(Guid.NewGuid());
+        mapper.Map<RentalModel>((RentalEntity)null!).Returns((RentalModel)null!);
 
+        // Act
+        var result = await rentalService.GetByIdAsync(rentalId);
+
+        // Assert
         result.ShouldBeNull();
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task AddAsync_ShouldMapAndReturnRentalModel()
+    [Theory, AutoDataCustomized]
+    public async Task AddAsync_ShouldMapAndReturnRentalModel(
+        RentalModel rentalModel,
+        RentalEntity rentalEntity,
+        [Frozen] IRentalRepository repository,
+        [Frozen] IMapper mapper,
+        RentalService rentalService)
     {
-        var rentalModel = _fixture.Build<RentalModel>()
-            .Without(r => r.Booking)
-            .Without(r => r.PickUpLocation)
-            .Without(r => r.DropOffLocation)
-            .Create();
+        // Arrange
+        mapper.Map<RentalEntity>(rentalModel).Returns(rentalEntity);
+        repository.AddAsync(rentalEntity, default).Returns(rentalEntity);
+        mapper.Map<RentalModel>(rentalEntity).Returns(rentalModel);
 
-        var rentalEntity = _mapper.Map<RentalEntity>(rentalModel);
+        // Act
+        var result = await rentalService.AddAsync(rentalModel);
 
-        _repository.AddAsync(Arg.Any<RentalEntity>(), default).Returns(rentalEntity);
-
-        var result = await _sut.AddAsync(rentalModel);
-
+        // Assert
         result.ShouldNotBeNull();
         result.Id.ShouldBe(rentalModel.Id);
-        await _repository.Received(1).AddAsync(Arg.Any<RentalEntity>(), default);
+        await repository.Received(1).AddAsync(rentalEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldCallRepositoryRemove_WhenRentalExists()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldCallRepositoryRemove_WhenRentalExists(
+        RentalEntity rentalEntity,
+        [Frozen] IRentalRepository repository,
+        RentalService rentalService)
     {
-        var rentalEntity = _fixture.Build<RentalEntity>()
-            .Without(r => r.Booking)
-            .Without(r => r.PickUpLocation)
-            .Without(r => r.DropOffLocation)
-            .Create();
+        // Arrange
+        repository.GetByIdAsync(rentalEntity.Id, default).Returns(rentalEntity);
 
-        _repository.GetByIdAsync(rentalEntity.Id, default).Returns(rentalEntity);
+        // Act
+        await rentalService.RemoveAsync(rentalEntity.Id);
 
-        await _sut.RemoveAsync(rentalEntity.Id);
-
-        await _repository.Received(1).RemoveAsync(rentalEntity, default);
+        // Assert
+        await repository.Received(1).RemoveAsync(rentalEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldThrow_WhenRentalNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldThrowKeyNotFoundException_WhenRentalNotFound(
+        Guid rentalId,
+        [Frozen] IRentalRepository repository,
+        RentalService rentalService)
     {
-        _repository.GetByIdAsync(Arg.Any<Guid>(), default).Returns((RentalEntity?)null);
+        // Arrange
+        repository.GetByIdAsync(rentalId, default).Returns((RentalEntity?)null);
 
-        await Should.ThrowAsync<KeyNotFoundException>(() => _sut.RemoveAsync(Guid.NewGuid()));
+        // Act & Assert
+        await Should.ThrowAsync<KeyNotFoundException>(() => rentalService.RemoveAsync(rentalId));
     }
 }

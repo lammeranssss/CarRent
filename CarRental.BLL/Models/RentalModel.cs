@@ -12,7 +12,7 @@ public class RentalModel : BaseModel
     public decimal FinalMileage { get; set; }
     public decimal FinalPrice { get; set; }
 
-    public BookingModel Booking { get; set; }
-    public LocationModel PickUpLocation { get; set; }
-    public LocationModel DropOffLocation { get; set; }
+    public BookingModel Booking { get; set; } = new();
+    public LocationModel PickUpLocation { get; set; } = new();
+    public LocationModel DropOffLocation { get; set; } = new();
 }

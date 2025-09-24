@@ -14,6 +14,6 @@ public class CarModel : BaseModel
     public decimal DailyRate { get; set; }
     public decimal Mileage { get; set; }
 
-    public LocationModel Location { get; set; }
+    public LocationModel Location { get; set; } = new();
     public ICollection<BookingModel> Bookings { get; set; } = [];
 }

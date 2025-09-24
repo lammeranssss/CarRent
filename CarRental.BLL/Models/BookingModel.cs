@@ -11,7 +11,7 @@ public class BookingModel : BaseModel
     public decimal TotalPrice { get; set; }
     public BookingStatusEnum BookingStatus { get; set; }
 
-    public CustomerModel Customer { get; set; }
-    public CarModel Car { get; set; }
-    public RentalModel Rental { get; set; }
+    public CustomerModel Customer { get; set; } = new();
+    public CarModel Car { get; set; } = new();
+    public RentalModel Rental { get; set; } = new();
 }
