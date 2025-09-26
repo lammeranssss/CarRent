@@ -1,105 +1,106 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using CarRental.BLL.Mapping;
 using CarRental.BLL.Models;
 using CarRental.BLL.Services;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using CarRental.Tests.BLL.AutoData;
 
 namespace CarRental.Tests.BLL.Services;
 
 public class CarServiceTests
 {
-    private readonly IFixture _fixture;
-    private readonly ICarRepository _repository;
-    private readonly Mapper _mapper;
-    private readonly CarService _sut;
-
-    public CarServiceTests()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnCarModel_WhenCarExists(
+        CarEntity carEntity,
+        CarModel carModel,
+        [Frozen] ICarRepository repository,
+        [Frozen] IMapper mapper,
+        CarService carService) 
     {
-        _fixture = new Fixture();
-        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
-        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        // Arrange
+        carModel.Id = carEntity.Id;
 
-        _repository = Substitute.For<ICarRepository>();
+        repository.GetByIdWithNoTrackingAsync(carEntity.Id, default).Returns(carEntity);
+        mapper.Map<CarModel>(carEntity).Returns(carModel);
 
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        var expression = new MapperConfigurationExpression();
-        expression.AddProfile<BllMappingProfile>();
-        var config = new MapperConfiguration(expression, loggerFactory);
-        _mapper = new Mapper(config);
+        // Act
+        var result = await carService.GetByIdAsync(carEntity.Id);
 
-        _sut = new CarService(_repository, _mapper);
-    }
-
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnCarModel_WhenCarExists()
-    {
-        var carEntity = _fixture.Build<CarEntity>()
-            .Without(c => c.Location)
-            .Without(c => c.Bookings)
-            .Create();
-
-        _repository.GetByIdWithNoTrackingAsync(carEntity.Id, default).Returns(carEntity);
-
-        var result = await _sut.GetByIdAsync(carEntity.Id);
-
+        // Assert
         result.ShouldNotBeNull();
-        result!.Id.ShouldBe(carEntity.Id);
-        result.Brand.ShouldBe(carEntity.Brand);
+        result.ShouldBe(carModel);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnNull_WhenCarNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenCarNotFound(
+        Guid carId,
+        [Frozen] ICarRepository repository,
+        [Frozen] IMapper mapper, 
+        CarService carService)
     {
-        _repository.GetByIdWithNoTrackingAsync(Arg.Any<Guid>(), default).Returns((CarEntity?)null);
+        // Arrange
+        repository.GetByIdWithNoTrackingAsync(carId, default).Returns((CarEntity?)null);
 
-        var result = await _sut.GetByIdAsync(Guid.NewGuid());
+        mapper.Map<CarModel>((CarEntity)null!).Returns((CarModel)null!);
 
+        // Act
+        var result = await carService.GetByIdAsync(carId);
+
+        // Assert
         result.ShouldBeNull();
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task AddAsync_ShouldMapAndReturnCarModel()
+    [Theory, AutoDataCustomized]
+    public async Task AddAsync_ShouldMapAndReturnCarModel(
+        CarModel carModel,
+        CarEntity carEntity,
+        [Frozen] ICarRepository repository,
+        [Frozen] IMapper mapper,
+        CarService carService)
     {
-        var carModel = _fixture.Build<CarModel>()
-            .Without(c => c.Location)
-            .Create();
+        // Arrange
+        mapper.Map<CarEntity>(carModel).Returns(carEntity);
+        repository.AddAsync(carEntity, default).Returns(carEntity);
+        mapper.Map<CarModel>(carEntity).Returns(carModel);
 
-        var carEntity = _mapper.Map<CarEntity>(carModel);
+        // Act
+        var result = await carService.AddAsync(carModel);
 
-        _repository.AddAsync(Arg.Any<CarEntity>(), default).Returns(carEntity);
-
-        var result = await _sut.AddAsync(carModel);
-
+        // Assert
         result.ShouldNotBeNull();
         result.Id.ShouldBe(carModel.Id);
-        await _repository.Received(1).AddAsync(Arg.Any<CarEntity>(), default);
+        await repository.Received(1).AddAsync(carEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldCallRepositoryRemove_WhenCarExists()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldCallRepositoryRemove_WhenCarExists(
+        CarEntity carEntity,
+        [Frozen] ICarRepository repository,
+        CarService carService)
     {
-        var carEntity = _fixture.Build<CarEntity>()
-            .Without(c => c.Location)
-            .Without(c => c.Bookings)
-            .Create();
+        // Arrange
+        repository.GetByIdAsync(carEntity.Id, default).Returns(carEntity);
 
-        _repository.GetByIdAsync(carEntity.Id, default).Returns(carEntity);
+        // Act
+        await carService.RemoveAsync(carEntity.Id);
 
-        await _sut.RemoveAsync(carEntity.Id);
-
-        await _repository.Received(1).RemoveAsync(carEntity, default);
+        // Assert
+        await repository.Received(1).RemoveAsync(carEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldThrow_WhenCarNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldThrowKeyNotFoundException_WhenCarNotFound(
+        Guid carId,
+        [Frozen] ICarRepository repository,
+        CarService carService)
     {
-        _repository.GetByIdAsync(Arg.Any<Guid>(), default).Returns((CarEntity?)null);
+        // Arrange
+        repository.GetByIdAsync(carId, default).Returns((CarEntity?)null);
 
-        await Should.ThrowAsync<KeyNotFoundException>(() => _sut.RemoveAsync(Guid.NewGuid()));
+        // Act & Assert
+        await Should.ThrowAsync<KeyNotFoundException>(() => carService.RemoveAsync(carId));
     }
 }

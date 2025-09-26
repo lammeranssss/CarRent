@@ -12,6 +12,6 @@ public class BookingModel : BaseModel
     public BookingStatusEnum BookingStatus { get; set; }
 
     public CustomerModel Customer { get; set; }
-    public CarModel Car { get; set; }
-    public RentalModel Rental { get; set; }
+    public CarModel Car { get; set; } 
+    public RentalModel Rental { get; set; } 
 }

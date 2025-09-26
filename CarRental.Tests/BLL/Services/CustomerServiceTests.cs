@@ -1,11 +1,10 @@
-﻿using AutoFixture;
+﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using CarRental.BLL.Mapping;
 using CarRental.BLL.Models;
 using CarRental.BLL.Services;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
-using Microsoft.Extensions.Logging;
+using CarRental.Tests.BLL.AutoData;
 using NSubstitute;
 using Shouldly;
 
@@ -13,90 +12,95 @@ namespace CarRental.Tests.BLL.Services;
 
 public class CustomerServiceTests
 {
-    private readonly IFixture _fixture;
-    private readonly ICustomerRepository _repository;
-    private readonly Mapper _mapper;
-    private readonly CustomerService _sut;
-
-    public CustomerServiceTests()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnCustomerModel_WhenCustomerExists(
+        CustomerEntity customerEntity,
+        CustomerModel customerModel,
+        [Frozen] ICustomerRepository repository,
+        [Frozen] IMapper mapper,
+        CustomerService customerService)
     {
-        _fixture = new Fixture();
-        _fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList().ForEach(b => _fixture.Behaviors.Remove(b));
-        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        // Arrange
+        customerModel.Id = customerEntity.Id;
 
-        _repository = Substitute.For<ICustomerRepository>();
+        repository.GetByIdWithNoTrackingAsync(customerEntity.Id, default).Returns(customerEntity);
+        mapper.Map<CustomerModel>(customerEntity).Returns(customerModel);
 
-        var loggerFactory = Substitute.For<ILoggerFactory>();
-        var expression = new MapperConfigurationExpression();
-        expression.AddProfile<BllMappingProfile>();
-        var config = new MapperConfiguration(expression, loggerFactory);
-        _mapper = new Mapper(config);
+        // Act
+        var result = await customerService.GetByIdAsync(customerEntity.Id);
 
-        _sut = new CustomerService(_repository, _mapper);
-    }
-
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnCustomerModel_WhenCustomerExists()
-    {
-        var customerEntity = _fixture.Build<CustomerEntity>()
-            .Without(c => c.Bookings)
-            .Create();
-
-        _repository.GetByIdWithNoTrackingAsync(customerEntity.Id, default).Returns(customerEntity);
-
-        var result = await _sut.GetByIdAsync(customerEntity.Id);
-
+        // Assert
         result.ShouldNotBeNull();
-        result!.Id.ShouldBe(customerEntity.Id);
+        result.ShouldBe(customerModel);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task GetByIdAsync_ShouldReturnNull_WhenCustomerNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task GetByIdAsync_ShouldReturnNull_WhenCustomerNotFound(
+        Guid customerId,
+        [Frozen] ICustomerRepository repository,
+        [Frozen] IMapper mapper,
+        CustomerService customerService)
     {
-        _repository.GetByIdWithNoTrackingAsync(Arg.Any<Guid>(), default).Returns((CustomerEntity?)null);
+        // Arrange
+        repository.GetByIdWithNoTrackingAsync(customerId, default).Returns((CustomerEntity?)null);
 
-        var result = await _sut.GetByIdAsync(Guid.NewGuid());
+        mapper.Map<CustomerModel>((CustomerEntity)null!).Returns((CustomerModel)null!);
 
+        // Act
+        var result = await customerService.GetByIdAsync(customerId);
+
+        // Assert
         result.ShouldBeNull();
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task AddAsync_ShouldMapAndReturnCustomerModel()
+    [Theory, AutoDataCustomized]
+    public async Task AddAsync_ShouldMapAndReturnCustomerModel(
+        CustomerModel customerModel,
+        CustomerEntity customerEntity,
+        [Frozen] ICustomerRepository repository,
+        [Frozen] IMapper mapper,
+        CustomerService customerService)
     {
-        var customerModel = _fixture.Build<CustomerModel>()
-            .Without(c => c.Bookings)
-            .Create();
+        // Arrange
+        mapper.Map<CustomerEntity>(customerModel).Returns(customerEntity);
+        repository.AddAsync(customerEntity, default).Returns(customerEntity);
+        mapper.Map<CustomerModel>(customerEntity).Returns(customerModel);
 
-        var customerEntity = _mapper.Map<CustomerEntity>(customerModel);
+        // Act
+        var result = await customerService.AddAsync(customerModel);
 
-        _repository.AddAsync(Arg.Any<CustomerEntity>(), default).Returns(customerEntity);
-
-        var result = await _sut.AddAsync(customerModel);
-
+        // Assert
         result.ShouldNotBeNull();
         result.Id.ShouldBe(customerModel.Id);
-        await _repository.Received(1).AddAsync(Arg.Any<CustomerEntity>(), default);
+        await repository.Received(1).AddAsync(customerEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldCallRepositoryRemove_WhenCustomerExists()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldCallRepositoryRemove_WhenCustomerExists(
+        CustomerEntity customerEntity,
+        [Frozen] ICustomerRepository repository,
+        CustomerService customerService)
     {
-        var customerEntity = _fixture.Build<CustomerEntity>()
-            .Without(c => c.Bookings)
-            .Create();
+        // Arrange
+        repository.GetByIdAsync(customerEntity.Id, default).Returns(customerEntity);
 
-        _repository.GetByIdAsync(customerEntity.Id, default).Returns(customerEntity);
+        // Act
+        await customerService.RemoveAsync(customerEntity.Id);
 
-        await _sut.RemoveAsync(customerEntity.Id);
-
-        await _repository.Received(1).RemoveAsync(customerEntity, default);
+        // Assert
+        await repository.Received(1).RemoveAsync(customerEntity, default);
     }
 
-    [Fact]
-    public async System.Threading.Tasks.Task RemoveAsync_ShouldThrow_WhenCustomerNotFound()
+    [Theory, AutoDataCustomized]
+    public async Task RemoveAsync_ShouldThrowKeyNotFoundException_WhenCustomerNotFound(
+        Guid customerId,
+        [Frozen] ICustomerRepository repository,
+        CustomerService customerService)
     {
-        _repository.GetByIdAsync(Arg.Any<Guid>(), default).Returns((CustomerEntity?)null);
+        // Arrange
+        repository.GetByIdAsync(customerId, default).Returns((CustomerEntity?)null);
 
-        await Should.ThrowAsync<KeyNotFoundException>(() => _sut.RemoveAsync(Guid.NewGuid()));
+        // Act & Assert
+        await Should.ThrowAsync<KeyNotFoundException>(() => customerService.RemoveAsync(customerId));
     }
 }
