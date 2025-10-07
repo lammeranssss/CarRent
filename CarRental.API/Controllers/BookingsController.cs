@@ -5,6 +5,7 @@ using CarRental.API.Models.Requests.Bookings;
 using CarRental.API.Models.Responses.Bookings;
 using CarRental.API.Abstractions.Routing;
 using Microsoft.AspNetCore.Mvc;
+using CarRental.BLL.Exceptions;
 
 namespace CarRental.API.Controllers;
 
@@ -22,11 +23,11 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
         return _mapper.Map<IEnumerable<BookingResponse>>(items);
     }
 
-    [HttpGet(ApiRoutes.Bookings.ById)]
+    [HttpGet(ApiRoutes.Id)]
     public async Task<BookingResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var item = await _service.GetByIdAsync(id, cancellationToken);
-        return _mapper.Map<BookingResponse>(item);
+        var model = await _service.GetByIdAsync(id, cancellationToken);
+        return model is null ? throw new NotFoundException($"model with {id} is not found") : _mapper.Map<BookingResponse>(model);
     }
 
     [HttpPost]
@@ -37,7 +38,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
         return _mapper.Map<BookingResponse>(created);
     }
 
-    [HttpPut(ApiRoutes.Bookings.ById)]
+    [HttpPut(ApiRoutes.Id)]
     public async Task<BookingResponse> Update(Guid id, [FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<BookingModel>(request);
@@ -46,7 +47,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
         return _mapper.Map<BookingResponse>(updated);
     }
 
-    [HttpDelete(ApiRoutes.Bookings.ById)]
+    [HttpDelete(ApiRoutes.Id)]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

@@ -5,6 +5,8 @@ using CarRental.API.Models.Requests.Customers;
 using CarRental.API.Models.Responses.Customers;
 using CarRental.API.Abstractions.Routing;
 using Microsoft.AspNetCore.Mvc;
+using CarRental.API.Models.Responses.Cars;
+using CarRental.BLL.Exceptions;
 
 namespace CarRental.API.Controllers;
 
@@ -22,11 +24,11 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
         return _mapper.Map<IEnumerable<CustomerResponse>>(items);
     }
 
-    [HttpGet(ApiRoutes.Customers.ById)]
+    [HttpGet(ApiRoutes.Id)]
     public async Task<CustomerResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
-        return _mapper.Map<CustomerResponse>(model);
+        return model is null ? throw new NotFoundException($"model with {id} is not found") : _mapper.Map<CustomerResponse>(model);
     }
 
     [HttpPost]
@@ -37,7 +39,7 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
         return _mapper.Map<CustomerResponse>(created);
     }
 
-    [HttpPut(ApiRoutes.Customers.ById)]
+    [HttpPut(ApiRoutes.Id)]
     public async Task<CustomerResponse> Update(Guid id, [FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CustomerModel>(request);
@@ -46,7 +48,7 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
         return _mapper.Map<CustomerResponse>(updated);
     }
 
-    [HttpDelete(ApiRoutes.Customers.ById)]
+    [HttpDelete(ApiRoutes.Id)]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);
