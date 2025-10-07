@@ -23,7 +23,7 @@ public class CreateCustomerRequestValidator : AbstractValidator<CreateCustomerRe
         RuleFor(x => x.Phone)
             .NotEmpty();
 
-        RuleFor(x => x.Adress)
+        RuleFor(x => x.Address)
             .NotEmpty();
 
         RuleFor(x => x.LicenseNumber)
