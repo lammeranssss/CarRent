@@ -15,30 +15,21 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private readonly InMemoryDatabaseRoot _root = new();
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("IntegrationTest");
-
         builder.ConfigureServices(services =>
         {
-            var descriptorsToRemove = services
-                .Where(d =>
-                    d.ServiceType == typeof(CarRentalDbContext) ||
-
-                    d.ServiceType == typeof(DbContextOptions<CarRentalDbContext>) ||
-
-                    d.ImplementationType?.Namespace?.StartsWith("Npgsql.EntityFrameworkCore.PostgreSQL") == true)
-                .ToList();
+            var descriptorsToRemove = services.Where(d =>
+    d.ServiceType == typeof(DbContextOptions<CarRentalDbContext>) ||
+    d.ServiceType == typeof(CarRentalDbContext) ||
+    d.ServiceType.Name.Contains("DatabaseProvider") ||
+    d.ServiceType.Name.Contains("DbContextOptions") ||
+    d.ServiceType.Name.Contains("IDbContextOptionsConfiguration") ||
+    d.ImplementationType?.Namespace?.Contains("Npgsql") == true
+).ToList();
 
             foreach (var descriptor in descriptorsToRemove)
             {
                 services.Remove(descriptor);
             }
-            var healthCheckService = services.FirstOrDefault(d => d.ServiceType.Name.Contains("HealthCheckService"));
-            if (healthCheckService != null)
-            {
-                services.RemoveAll(typeof(IHostedService)); 
-                services.AddHealthChecks(); 
-            }
-
             services.AddDbContext<CarRentalDbContext>(options =>
             {
                 options.UseInMemoryDatabase("TestDatabase", _root);
