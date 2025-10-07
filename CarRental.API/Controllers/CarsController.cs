@@ -28,7 +28,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
     public async Task<CarResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
-        return model is null ? throw new NotFoundException($"model with {id} is not found") : _mapper.Map<CarResponse>(model);
+        return _mapper.Map<CarResponse>(model);
     }
 
     [HttpPost]

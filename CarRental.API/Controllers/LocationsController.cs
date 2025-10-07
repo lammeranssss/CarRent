@@ -7,6 +7,7 @@ using CarRental.API.Abstractions.Routing;
 using Microsoft.AspNetCore.Mvc;
 using CarRental.API.Models.Responses.Cars;
 using CarRental.BLL.Exceptions;
+using CarRental.API.Models.Responses.Bookings;
 
 namespace CarRental.API.Controllers;
 
@@ -28,7 +29,7 @@ public class LocationsController(ILocationService service, IMapper mapper) : Con
     public async Task<LocationResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
-        return model is null ? throw new NotFoundException($"model with {id} is not found") : _mapper.Map<LocationResponse>(model);
+        return _mapper.Map<LocationResponse>(model);
     }
 
     [HttpPost]

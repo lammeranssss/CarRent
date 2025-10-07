@@ -27,7 +27,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
     public async Task<BookingResponse> GetById(Guid id, CancellationToken cancellationToken)
     {
         var model = await _service.GetByIdAsync(id, cancellationToken);
-        return model is null ? throw new NotFoundException($"model with {id} is not found") : _mapper.Map<BookingResponse>(model);
+        return _mapper.Map<BookingResponse>(model);
     }
 
     [HttpPost]
