@@ -1,5 +1,6 @@
 ﻿using CarRental.BLL.Models;
+using CarRental.DAL.Models.Entities;
 
 namespace CarRental.BLL.Abstractions;
 
-public interface ICarService : IGenericService<CarModel> { }
+public interface ICarService : IGenericService<CarModel,CarEntity> { }
