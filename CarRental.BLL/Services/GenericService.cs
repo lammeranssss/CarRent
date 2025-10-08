@@ -20,7 +20,7 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel, TEntity>
     public async Task<TModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await _repository.GetByIdWithNoTrackingAsync(id, cancellationToken);
-        return entity is null ? throw new NotFoundException($"{typeof(TModel).Name} with id {id} not found.") : _mapper.Map<TModel>(entity);
+        return _mapper.Map<TModel>(entity);
     }
 
     public async Task<IReadOnlyList<TModel>> GetAllAsync(CancellationToken cancellationToken = default)

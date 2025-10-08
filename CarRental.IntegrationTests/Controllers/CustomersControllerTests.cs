@@ -57,7 +57,7 @@ public class CustomersControllerTests(CustomWebApplicationFactory factory) : Bas
         var response = await Client.GetAsync($"/api/customers/{Guid.NewGuid()}");
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
 
     [Fact]

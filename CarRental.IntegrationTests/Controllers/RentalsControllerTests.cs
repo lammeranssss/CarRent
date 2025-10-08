@@ -60,7 +60,7 @@ public class RentalsControllerTests(CustomWebApplicationFactory factory) : BaseI
         var response = await Client.GetAsync($"/api/rentals/{Guid.NewGuid()}");
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
 
     [Fact]

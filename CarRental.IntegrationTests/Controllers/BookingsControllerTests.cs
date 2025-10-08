@@ -62,7 +62,7 @@ public class BookingsControllerTests(CustomWebApplicationFactory factory) : Base
         var response = await Client.GetAsync($"/api/bookings/{Guid.NewGuid()}");
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
 
     [Fact]

@@ -61,7 +61,7 @@ public class CarsControllerTests(CustomWebApplicationFactory factory) : BaseInte
         var response = await Client.GetAsync($"/api/cars/{Guid.NewGuid()}");
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.NoContent);
     }
 
     [Fact]
