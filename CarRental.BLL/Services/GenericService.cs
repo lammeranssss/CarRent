@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using CarRental.BLL.Abstractions;
+using CarRental.BLL.Exceptions;
 using CarRental.DAL.Abstractions;
 
 namespace CarRental.BLL.Services;
 
-public class GenericService<TModel, TEntity> : IGenericService<TModel>
+public class GenericService<TModel, TEntity> : IGenericService<TModel, TEntity>
     where TEntity : BaseEntity
 {
     private readonly IGenericRepository<TEntity> _repository;

@@ -11,7 +11,7 @@ public static class DependencyRegistrar
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddAutoMapper(typeof(Mapping.ApiMappingProfile));
+        services.AddAutoMapper(cfg => { cfg.AddMaps(typeof(Mapping.ApiMappingProfile).Assembly); });
         services.AddBllDependencies(configuration);
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(DependencyRegistrar)));

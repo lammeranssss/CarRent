@@ -4,6 +4,6 @@ public record CreateCustomerRequest(
     string LastName,
     string Email,
     string Phone,
-    string Adress,
+    string Address,
     string LicenseNumber
 );
