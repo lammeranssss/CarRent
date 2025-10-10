@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using CarRental.DAL.DataContext;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http.Headers;
 
 namespace CarRental.IntegrationTests;
 
@@ -11,6 +12,8 @@ public abstract class BaseIntegrationTest(CustomWebApplicationFactory factory) :
 
     public Task InitializeAsync()
     {
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("TestScheme");
+
         using var scope = _factory.Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<CarRentalDbContext>();
         
