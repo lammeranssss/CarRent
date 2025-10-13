@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
+using System.Threading.Tasks; // Добавьте этот using
 
 namespace CarRental.IntegrationTests;
 
@@ -14,10 +15,14 @@ public class TestAuthHandler(
 {
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+        if (!Request.Headers.ContainsKey("Authorization"))
+        {
+            return Task.FromResult(AuthenticateResult.NoResult());
+        }
+
         var claims = new[] {
             new Claim(ClaimTypes.Name, "TestUser"),
             new Claim(ClaimTypes.NameIdentifier, "test-user-id-123"),
-            // new Claim(ClaimTypes.Role, "Admin"),
         };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);

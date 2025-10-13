@@ -13,10 +13,25 @@ namespace CarRental.IntegrationTests.Controllers;
 
 public class RentalsControllerTests : BaseIntegrationTest
 {
+    private readonly CustomWebApplicationFactory _factory;
     public RentalsControllerTests(CustomWebApplicationFactory factory) : base(factory)
     {
+        _factory = factory;
         Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("TestScheme");
     }
+    [Fact]
+    public async Task GetAll_WhenUserIsNotAuthenticated_ReturnsUnauthorized()
+    {
+        // Arrange
+        var unauthenticatedClient = _factory.CreateClient();
+
+        // Act
+        var response = await unauthenticatedClient.GetAsync("/api/rentals");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
     [Fact]
     public async Task GetAll_WhenRentalsExist_ReturnsRentalsList()
     {
