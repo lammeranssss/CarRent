@@ -62,10 +62,10 @@ jobs:
             /d:sonar.login="${{ env.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
-            /d:sonar.tests="**/CarRental.IntegrationTests/**/*" \
-            /d:sonar.coverage.exclusions="**/CarRental.IntegrationTests/**/*,**/Program.cs" \
             /d:sonar.scm.revision="${{ github.sha }}" \
             $PR_ARGS
+
+          dotnet sonarscanner begin /k:"lammeranssss_CarRent" /o:"lammeranssss" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.scm.revision="${{ github.sha }}" /d:sonar.cs.opencover.reportsPaths='**/coverage.opencover.xml' /d:sonar.exclusions='**/obj/**,**/bin/**,**/Migrations/**' /d:sonar.tests='**/CarRental.IntegrationTests/**/*' /d:sonar.coverage.exclusions='**/CarRental.IntegrationTests/**,**/Program.cs,**/DI/**,**/Models/**' $PR_ARGS
 
           dotnet restore CarRental.sln
 
