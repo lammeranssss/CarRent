@@ -24,7 +24,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     d.ServiceType.Name.Contains("DatabaseProvider") ||
     d.ServiceType.Name.Contains("DbContextOptions") ||
     d.ServiceType.Name.Contains("IDbContextOptionsConfiguration") ||
-    d.ImplementationType?.Namespace?.Contains("Npgsql") == true
+    d.ImplementationType?.Namespace?.Contains("Npgsql") == true ||
+    d.ServiceType.Name.Contains("JwtBearer")
 ).ToList();
 
             foreach (var descriptor in descriptorsToRemove)
