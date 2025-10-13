@@ -1,10 +1,13 @@
 ﻿using CarRental.DAL.DataContext;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace CarRental.IntegrationTests;
 
@@ -33,15 +36,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 options.UseInMemoryDatabase("TestDatabase", _root);
             });
 
-            var authDescriptors = services.Where(d =>
-                d.ServiceType.FullName?.Contains("Authentication") == true).ToList();
-            foreach (var descriptor in authDescriptors)
-            {
-                services.Remove(descriptor);
-            }
-
             services.AddAuthentication("TestScheme")
-                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
+    .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
         });
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using CarRental.API.Models.Requests.Customers;
@@ -9,8 +10,12 @@ using Shouldly;
 
 namespace CarRental.IntegrationTests.Controllers;
 
-public class CustomersControllerTests(CustomWebApplicationFactory factory) : BaseIntegrationTest(factory)
+public class CustomersControllerTests : BaseIntegrationTest
 {
+    public CustomersControllerTests(CustomWebApplicationFactory factory) : base(factory)
+    {
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("TestScheme");
+    }
     [Fact]
     public async Task GetAll_WhenCustomersExist_ReturnsCustomersList()
     {
