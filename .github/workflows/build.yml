@@ -1,12 +1,3 @@
-name: SonarQube Analysis
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
-
 jobs:
   build-and-analyze:
     name: Build and analyze
@@ -44,26 +35,24 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          PR_KEY: ${{ github.event.pull_request.number }}
-          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
-          PR_BASE: ${{ github.event.pull_request.base.ref }}
+          
+          SONAR_SCANNER_ARGS: >-
+            /k:"lammeranssss_CarRent"
+            /o:"lammeranssss"
+            /d:sonar.host.url="https://sonarcloud.io"
+            /d:sonar.scm.revision="${{ github.sha }}"
+            /d:sonar.cs.opencover.reportsPaths='**/coverage.opencover.xml'
+            /d:sonar.exclusions='**/obj/**,**/bin/**,**/Migrations/**'
+            /d:sonar.tests='**/CarRental.IntegrationTests/**/*'
+            /d:sonar.coverage.exclusions='**/CarRental.IntegrationTests/**,**/Program.cs,**/DI/**,**/Models/**'
+            
         run: | 
           PR_ARGS=""
-          if [ -n "$PR_KEY" ]; then
-            PR_ARGS="\
-              /d:sonar.pullrequest.key=$PR_KEY \
-              /d:sonar.pullrequest.branch=$PR_BRANCH \
-              /d:sonar.pullrequest.base=$PR_BASE"
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            PR_ARGS="/d:sonar.pullrequest.key=${{ github.event.pull_request.number }} /d:sonar.pullrequest.branch=${{ github.event.pull_request.head.ref }} /d:sonar.pullrequest.base=${{ github.event.pull_request.base.ref }}"
           fi
           
-          dotnet sonarscanner begin \
-            /k:"lammeranssss_CarRent" \
-            /o:"lammeranssss" \
-            /d:sonar.login="${{ env.SONAR_TOKEN }}" \
-            /d:sonar.host.url="https://sonarcloud.io" \
-            /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
-            /d:sonar.scm.revision="${{ github.sha }}" \
-            $PR_ARGS
+          dotnet sonarscanner begin ${{ env.SONAR_SCANNER_ARGS }} /d:sonar.login="${{ env.SONAR_TOKEN }}" $PR_ARGS
 
           dotnet restore CarRental.sln
 

@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using CarRental.API.Models.Requests.Cars;
@@ -9,8 +10,27 @@ using Shouldly;
 
 namespace CarRental.IntegrationTests.Controllers;
 
-public class CarsControllerTests(CustomWebApplicationFactory factory) : BaseIntegrationTest(factory)
+public class CarsControllerTests : BaseIntegrationTest
 {
+    private readonly CustomWebApplicationFactory _factory;
+    public CarsControllerTests(CustomWebApplicationFactory factory) : base(factory)
+    {
+        _factory = factory;
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("TestScheme");
+    }
+    [Fact]
+    public async Task GetAll_WhenUserIsNotAuthenticated_ReturnsUnauthorized()
+    {
+        // Arrange
+        var unauthenticatedClient = _factory.CreateClient();
+
+        // Act
+        var response = await unauthenticatedClient.GetAsync("/api/cars");
+
+        // Assert
+        response.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
     [Fact]
     public async Task GetAll_WhenCarsExist_ReturnsCarsList()
     {

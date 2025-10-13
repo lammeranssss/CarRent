@@ -5,14 +5,13 @@ using CarRental.API.Models.Requests.Rentals;
 using CarRental.API.Models.Responses.Rentals;
 using CarRental.API.Abstractions.Routing;
 using Microsoft.AspNetCore.Mvc;
-using CarRental.API.Models.Responses.Cars;
-using CarRental.BLL.Exceptions;
-using CarRental.API.Models.Responses.Bookings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.API.Controllers;
 
 [ApiController]
 [Route(ApiRoutes.Rentals.Base)]
+[Authorize]
 public class RentalsController(IRentalService service, IMapper mapper) : ControllerBase
 {
     private readonly IRentalService _service = service;

@@ -1,4 +1,5 @@
 ﻿using CarRental.DAL.DataContext;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     d.ServiceType.Name.Contains("DatabaseProvider") ||
     d.ServiceType.Name.Contains("DbContextOptions") ||
     d.ServiceType.Name.Contains("IDbContextOptionsConfiguration") ||
-    d.ImplementationType?.Namespace?.Contains("Npgsql") == true
+    d.ImplementationType?.Namespace?.Contains("Npgsql") == true ||
+    d.ServiceType.Name.Contains("JwtBearer")
 ).ToList();
 
             foreach (var descriptor in descriptorsToRemove)
@@ -34,6 +36,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             {
                 options.UseInMemoryDatabase("TestDatabase", _root);
             });
+
+            services.AddAuthentication("TestScheme")
+    .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("TestScheme", options => { });
         });
     }
 }

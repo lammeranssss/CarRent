@@ -1,10 +1,5 @@
 using CarRental.API.DI;
-using CarRental.BLL.Extensions;
-using CarRental.DAL.DI;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Options;
-using System.Text;
-using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +16,8 @@ var app = builder.Build();
 app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
