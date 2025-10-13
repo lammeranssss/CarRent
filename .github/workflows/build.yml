@@ -62,6 +62,8 @@ jobs:
             /d:sonar.login="${{ env.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
+            /d:sonar.tests="**/CarRental.IntegrationTests/**/*" \
+            /d:sonar.coverage.exclusions="**/CarRental.IntegrationTests/**/*,**/Program.cs" \
             /d:sonar.scm.revision="${{ github.sha }}" \
             $PR_ARGS
 
