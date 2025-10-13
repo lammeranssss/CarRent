@@ -9,13 +9,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddApiDependencies(builder.Configuration);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = builder.Configuration["Auth0:Domain"];
-        options.Audience = builder.Configuration["Auth0:Audience"];
-    });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
