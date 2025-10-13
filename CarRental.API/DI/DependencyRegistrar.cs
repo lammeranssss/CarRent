@@ -17,11 +17,11 @@ public static class DependencyRegistrar
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(DependencyRegistrar)));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.Authority = configuration["Auth0:Domain"];
-        options.Audience = configuration["Auth0:Audience"];
-    });
+            .AddJwtBearer(options =>
+            {
+                options.Authority = configuration["Auth0:Domain"];
+                options.Audience = configuration["Auth0:Audience"];
+            });
         return services;
     }
 }
