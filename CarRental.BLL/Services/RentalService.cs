@@ -6,7 +6,7 @@ using CarRental.DAL.Models.Entities;
 using CarRental.Messaging;
 using CarRental.Messaging.Events;
 using CarRental.Utilities.Abstractions;
-using CarRental.BLL.Extensions; // <-- Для CalculateMileageUsed
+using CarRental.BLL.Extensions; 
 
 namespace CarRental.BLL.Services;
 
