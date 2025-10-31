@@ -5,17 +5,12 @@ using CarRental.DAL.Abstractions;
 
 namespace CarRental.BLL.Services;
 
-public class GenericService<TModel, TEntity> : IGenericService<TModel, TEntity>
+public class GenericService<TModel, TEntity>(IGenericRepository<TEntity> repository, IMapper mapper) : IGenericService<TModel, TEntity>
     where TEntity : BaseEntity
+    where TModel : BaseModel
 {
-    private readonly IGenericRepository<TEntity> _repository;
-    private readonly IMapper _mapper;
-
-    public GenericService(IGenericRepository<TEntity> repository, IMapper mapper)
-    {
-        _repository = repository;
-        _mapper = mapper;
-    }
+    protected readonly IGenericRepository<TEntity> _repository = repository;
+    protected readonly IMapper _mapper = mapper;
 
     public async Task<TModel?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
@@ -29,17 +24,19 @@ public class GenericService<TModel, TEntity> : IGenericService<TModel, TEntity>
         return _mapper.Map<IReadOnlyList<TModel>>(entities);
     }
 
-    public async Task<TModel> AddAsync(TModel model, CancellationToken cancellationToken = default)
+    public virtual async Task<TModel> AddAsync(TModel model, CancellationToken cancellationToken = default)
     {
         var entity = _mapper.Map<TEntity>(model);
         var added = await _repository.AddAsync(entity, cancellationToken);
         return _mapper.Map<TModel>(added);
     }
 
-    public async Task<TModel> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
+    public virtual async Task<TModel> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
     {
-        var entity = _mapper.Map<TEntity>(model);
-        var updated = await _repository.UpdateAsync(entity, cancellationToken);
+        var modelId = model.Id;
+        var updated = await _repository.GetByIdAsync(modelId, cancellationToken);
+        _mapper.Map(model, updated);
+        await _repository.UpdateAsync(updated, cancellationToken);
         return _mapper.Map<TModel>(updated);
     }
 
