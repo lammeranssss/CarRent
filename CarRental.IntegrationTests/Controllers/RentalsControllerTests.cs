@@ -119,15 +119,22 @@ public class RentalsControllerTests : BaseIntegrationTest
         var (booking, pickUpLocation, dropOffLocation) = await CreatePrerequisitesAsync();
         var rental = await AddEntityAsync(TestDataHelper.CreateRentalEntity(bookingId: booking.Id, pickUpLocationId: pickUpLocation.Id, dropOffLocationId: dropOffLocation.Id));
 
-        var updatedRentalData = TestDataHelper.CreateRentalEntity();
+        var newPickUpDate = rental.PickUpDate.AddDays(1); 
+        var newDropOffDate = rental.DropOffDate.AddDays(1); 
+        var newFinalMileage = rental.InitialMileage + 500; 
+        var newFinalPrice = 250.0m; 
 
         var request = new UpdateRentalRequest(
-            PickUpDate: updatedRentalData.PickUpDate.AddDays(1),
-            DropOffDate: updatedRentalData.DropOffDate.AddDays(1),
+            BookingId: rental.BookingId, 
+            PickUpDate: newPickUpDate,
+            DropOffDate: newDropOffDate,
             PickUpLocationId: pickUpLocation.Id,
             DropOffLocationId: dropOffLocation.Id,
-            FinalMileage: rental.InitialMileage + 500
+            InitialMileage: rental.InitialMileage, 
+            FinalMileage: newFinalMileage,
+            FinalPrice: newFinalPrice 
         );
+
         var json = JsonSerializer.Serialize(request);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -141,6 +148,7 @@ public class RentalsControllerTests : BaseIntegrationTest
         result.ShouldNotBeNull();
         result.Id.ShouldBe(rental.Id);
         result.FinalMileage.ShouldBe(request.FinalMileage);
+        result.FinalPrice.ShouldBe(request.FinalPrice); 
     }
 
     [Fact]
