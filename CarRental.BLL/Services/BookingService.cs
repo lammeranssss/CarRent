@@ -69,7 +69,7 @@ public class BookingService(
             BookingId = bookingEntity.Id,
             CustomerEmail = customer?.Email,
             CustomerFirstName = customer?.FirstName,
-            CarModel = (car != null) ? $"{car.Brand} {car.Model}" : null,
+            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
             StartDate = bookingEntity.StartDate
         };
 
