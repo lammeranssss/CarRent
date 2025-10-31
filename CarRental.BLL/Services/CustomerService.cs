@@ -3,9 +3,43 @@ using CarRental.BLL.Abstractions;
 using CarRental.BLL.Models;
 using CarRental.DAL.Abstractions;
 using CarRental.DAL.Models.Entities;
+using CarRental.Messaging; 
+using CarRental.Messaging.Events; 
+using CarRental.Utilities.Abstractions; 
 
 namespace CarRental.BLL.Services;
 
-public class CustomerService(ICustomerRepository repository, IMapper mapper) : GenericService<CustomerModel, CustomerEntity>(repository, mapper), ICustomerService
+public class CustomerService(
+    ICustomerRepository repository,
+    IMapper mapper,
+    IEventSender eventSender,
+    ITraceIdProvider traceIdProvider,
+    IDateTimeProvider dateTimeProvider) : GenericService<CustomerModel, CustomerEntity>(repository, mapper), ICustomerService
 {
+    private readonly IEventSender _eventSender = eventSender;
+    private readonly ITraceIdProvider _traceIdProvider = traceIdProvider;
+    private readonly IDateTimeProvider _dateTimeProvider = dateTimeProvider;
+
+    public override async Task<CustomerModel> AddAsync(CustomerModel model, CancellationToken cancellationToken = default)
+    {
+        var newCustomerModel = await base.AddAsync(model, cancellationToken);
+
+        var customerEvent = new CustomerRegisteredEvent
+        {
+            CustomerId = newCustomerModel.Id,
+            FirstName = newCustomerModel.FirstName,
+            LastName = newCustomerModel.LastName,
+            Email = newCustomerModel.Email
+        };
+
+        var wrappedEvent = new EventWrapper<CustomerRegisteredEvent>
+        {
+            Payload = customerEvent,
+            TraceId = _traceIdProvider.GetTraceId(),
+            Timestamp = _dateTimeProvider.CurrentDateTime
+        };
+
+        await _eventSender.SendAsync(wrappedEvent, cancellationToken);
+        return newCustomerModel;
+    }
 }
