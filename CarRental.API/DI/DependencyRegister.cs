@@ -9,7 +9,7 @@ using CarRental.Utilities.Infrastructure;
 
 namespace CarRental.API.DI;
 
-public static class DependencyRegistrar
+public static class DependencyRegister
 {
     public static IServiceCollection AddApiDependencies(
         this IServiceCollection services,
@@ -18,7 +18,7 @@ public static class DependencyRegistrar
         services.AddAutoMapper(cfg => { cfg.AddMaps(typeof(Mapping.ApiMappingProfile).Assembly); });
         services.AddBllDependencies(configuration);
         services.AddFluentValidationAutoValidation();
-        services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(DependencyRegistrar)));
+        services.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(DependencyRegister)));
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
