@@ -32,8 +32,8 @@ public class RentalService(
         var newRentalModel = await base.AddAsync(model, cancellationToken);
 
         var booking = await _bookingRepository.GetByIdAsync(newRentalModel.BookingId, cancellationToken);
-        var car = (booking != null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
-        var customer = (booking != null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
+        var car = (booking is not null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
+        var customer = (booking is not null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
 
         var rentalStartedEvent = new RentalStartedEvent
         {
@@ -41,7 +41,7 @@ public class RentalService(
             BookingId = newRentalModel.BookingId,
             CustomerEmail = customer?.Email,
             CustomerFirstName = customer?.FirstName,
-            CarModel = (car != null) ? $"{car.Brand} {car.Model}" : null,
+            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
             CarLicensePlate = car?.LicensePlate,
             PickUpDate = newRentalModel.PickUpDate,
             InitialMileage = newRentalModel.InitialMileage
@@ -75,8 +75,8 @@ public class RentalService(
         var updatedRentalModel = _mapper.Map<RentalModel>(existingEntity);
 
         var booking = await _bookingRepository.GetByIdAsync(updatedRentalModel.BookingId, cancellationToken);
-        var car = (booking != null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
-        var customer = (booking != null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
+        var car = (booking is not null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
+        var customer = (booking is not null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
         var kilometersDriven = updatedRentalModel.CalculateMileageUsed();
 
         var rentalCompletedEvent = new RentalCompletedEvent
@@ -84,7 +84,7 @@ public class RentalService(
             RentalId = updatedRentalModel.Id,
             BookingId = updatedRentalModel.BookingId,
             CustomerEmail = customer?.Email,
-            CarModel = (car != null) ? $"{car.Brand} {car.Model}" : null,
+            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
             DropOffDate = updatedRentalModel.DropOffDate,
             FinalMileage = updatedRentalModel.FinalMileage,
             InitialMileage = updatedRentalModel.InitialMileage,
