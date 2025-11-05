@@ -6,8 +6,7 @@ using CarRental.DAL.Models.Entities;
 using CarRental.Messaging;
 using CarRental.Messaging.Events;
 using CarRental.Utilities.Abstractions;
-using CarRental.BLL.Extensions; 
-
+using CarRental.BLL.Extensions;
 namespace CarRental.BLL.Services;
 
 public class RentalService(
@@ -20,20 +19,13 @@ public class RentalService(
     ICarRepository carRepository,
     ICustomerRepository customerRepository) : GenericService<RentalModel, RentalEntity>(repository, mapper), IRentalService
 {
-    private readonly IEventSender _eventSender = eventSender;
-    private readonly ITraceIdProvider _traceIdProvider = traceIdProvider;
-    private readonly IDateTimeProvider _dateTimeProvider = dateTimeProvider;
-    private readonly IBookingRepository _bookingRepository = bookingRepository;
-    private readonly ICarRepository _carRepository = carRepository;
-    private readonly ICustomerRepository _customerRepository = customerRepository;
-
     public override async Task<RentalModel> AddAsync(RentalModel model, CancellationToken cancellationToken = default)
     {
         var newRentalModel = await base.AddAsync(model, cancellationToken);
 
-        var booking = await _bookingRepository.GetByIdAsync(newRentalModel.BookingId, cancellationToken);
-        var car = (booking is not null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
-        var customer = (booking is not null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
+        var booking = await bookingRepository.GetByIdAsync(newRentalModel.BookingId, cancellationToken);
+        var car = (booking is not null) ? await carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
+        var customer = (booking is not null) ? await customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
 
         var rentalStartedEvent = new RentalStartedEvent
         {
@@ -47,13 +39,7 @@ public class RentalService(
             InitialMileage = newRentalModel.InitialMileage
         };
 
-        var wrappedEvent = new EventWrapper<RentalStartedEvent>
-        {
-            Payload = rentalStartedEvent,
-            TraceId = _traceIdProvider.GetTraceId(),
-            Timestamp = _dateTimeProvider.CurrentDateTime
-        };
-        await _eventSender.SendAsync(wrappedEvent, cancellationToken);
+        await PublishEventAsync(rentalStartedEvent, cancellationToken);
 
         return newRentalModel;
     }
@@ -61,22 +47,17 @@ public class RentalService(
     public override async Task<RentalModel> UpdateAsync(RentalModel model, CancellationToken cancellationToken = default)
     {
         var modelId = model.Id;
-        var existingEntity = await _repository.GetByIdAsync(modelId, cancellationToken);
+        var existingEntity = await repository.GetByIdWithNoTrackingAsync(modelId, cancellationToken);
 
-        existingEntity.DropOffDate = model.DropOffDate;
-        existingEntity.FinalMileage = model.FinalMileage;
-        existingEntity.FinalPrice = model.FinalPrice;
-        existingEntity.PickUpDate = model.PickUpDate;
-        existingEntity.PickUpLocationId = model.PickUpLocationId;
-        existingEntity.DropOffLocationId = model.DropOffLocationId;
-        existingEntity.InitialMileage = model.InitialMileage;
+        mapper.Map(model, existingEntity);
 
         await _repository.UpdateAsync(existingEntity, cancellationToken);
+
         var updatedRentalModel = _mapper.Map<RentalModel>(existingEntity);
 
-        var booking = await _bookingRepository.GetByIdAsync(updatedRentalModel.BookingId, cancellationToken);
-        var car = (booking is not null) ? await _carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
-        var customer = (booking is not null) ? await _customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
+        var booking = await bookingRepository.GetByIdAsync(updatedRentalModel.BookingId, cancellationToken);
+        var car = (booking is not null) ? await carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
+        var customer = (booking is not null) ? await customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
         var kilometersDriven = updatedRentalModel.CalculateMileageUsed();
 
         var rentalCompletedEvent = new RentalCompletedEvent
@@ -92,14 +73,20 @@ public class RentalService(
             KilometersDriven = kilometersDriven
         };
 
-        var wrappedEvent = new EventWrapper<RentalCompletedEvent>
-        {
-            Payload = rentalCompletedEvent,
-            TraceId = _traceIdProvider.GetTraceId(),
-            Timestamp = _dateTimeProvider.CurrentDateTime
-        };
-        await _eventSender.SendAsync(wrappedEvent, cancellationToken);
+        await PublishEventAsync(rentalCompletedEvent, cancellationToken);
 
         return updatedRentalModel;
+    }
+
+    private async Task PublishEventAsync<T>(T payload, CancellationToken cancellationToken = default) where T : class
+    {
+        var wrappedEvent = new EventWrapper<T>
+        {
+            Payload = payload,
+            TraceId = traceIdProvider.GetTraceId(),
+            Timestamp = dateTimeProvider.CurrentDateTime
+        };
+
+        await eventSender.SendAsync(wrappedEvent, cancellationToken);
     }
 }

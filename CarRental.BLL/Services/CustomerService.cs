@@ -16,10 +16,6 @@ public class CustomerService(
     ITraceIdProvider traceIdProvider,
     IDateTimeProvider dateTimeProvider) : GenericService<CustomerModel, CustomerEntity>(repository, mapper), ICustomerService
 {
-    private readonly IEventSender _eventSender = eventSender;
-    private readonly ITraceIdProvider _traceIdProvider = traceIdProvider;
-    private readonly IDateTimeProvider _dateTimeProvider = dateTimeProvider;
-
     public override async Task<CustomerModel> AddAsync(CustomerModel model, CancellationToken cancellationToken = default)
     {
         var newCustomerModel = await base.AddAsync(model, cancellationToken);
@@ -35,11 +31,11 @@ public class CustomerService(
         var wrappedEvent = new EventWrapper<CustomerRegisteredEvent>
         {
             Payload = customerEvent,
-            TraceId = _traceIdProvider.GetTraceId(),
-            Timestamp = _dateTimeProvider.CurrentDateTime
+            TraceId = traceIdProvider.GetTraceId(),
+            Timestamp = dateTimeProvider.CurrentDateTime
         };
 
-        await _eventSender.SendAsync(wrappedEvent, cancellationToken);
+        await eventSender.SendAsync(wrappedEvent, cancellationToken);
         return newCustomerModel;
     }
 }
