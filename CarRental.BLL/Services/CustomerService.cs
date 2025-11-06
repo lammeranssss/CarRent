@@ -20,13 +20,7 @@ public class CustomerService(
     {
         var newCustomerModel = await base.AddAsync(model, cancellationToken);
 
-        var customerEvent = new CustomerRegisteredEvent
-        {
-            CustomerId = newCustomerModel.Id,
-            FirstName = newCustomerModel.FirstName,
-            LastName = newCustomerModel.LastName,
-            Email = newCustomerModel.Email
-        };
+        var customerEvent = _mapper.Map<CustomerRegisteredEvent>(newCustomerModel);
 
         var wrappedEvent = new EventWrapper<CustomerRegisteredEvent>
         {

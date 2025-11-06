@@ -27,17 +27,11 @@ public class RentalService(
         var car = (booking is not null) ? await carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
         var customer = (booking is not null) ? await customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
 
-        var rentalStartedEvent = new RentalStartedEvent
+        var rentalStartedEvent = _mapper.Map<RentalStartedEvent>(newRentalModel, opts =>
         {
-            RentalId = newRentalModel.Id,
-            BookingId = newRentalModel.BookingId,
-            CustomerEmail = customer?.Email,
-            CustomerFirstName = customer?.FirstName,
-            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
-            CarLicensePlate = car?.LicensePlate,
-            PickUpDate = newRentalModel.PickUpDate,
-            InitialMileage = newRentalModel.InitialMileage
-        };
+            if (customer != null) opts.Items["Customer"] = customer;
+            if (car != null) opts.Items["Car"] = car;
+        });
 
         await PublishEventAsync(rentalStartedEvent, cancellationToken);
 
@@ -60,18 +54,11 @@ public class RentalService(
         var customer = (booking is not null) ? await customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
         var kilometersDriven = updatedRentalModel.CalculateMileageUsed();
 
-        var rentalCompletedEvent = new RentalCompletedEvent
+        var rentalCompletedEvent = _mapper.Map<RentalCompletedEvent>(updatedRentalModel, opts =>
         {
-            RentalId = updatedRentalModel.Id,
-            BookingId = updatedRentalModel.BookingId,
-            CustomerEmail = customer?.Email,
-            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
-            DropOffDate = updatedRentalModel.DropOffDate,
-            FinalMileage = updatedRentalModel.FinalMileage,
-            InitialMileage = updatedRentalModel.InitialMileage,
-            FinalPrice = updatedRentalModel.FinalPrice,
-            KilometersDriven = kilometersDriven
-        };
+            if (customer != null) opts.Items["Customer"] = customer;
+            if (car != null) opts.Items["Car"] = car;
+        });
 
         await PublishEventAsync(rentalCompletedEvent, cancellationToken);
 

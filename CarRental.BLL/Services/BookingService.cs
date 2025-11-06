@@ -2,6 +2,7 @@
 using CarRental.BLL.Abstractions;
 using CarRental.BLL.Models;
 using CarRental.DAL.Abstractions;
+using CarRental.DAL.DataContext;
 using CarRental.DAL.Models.Entities;
 using CarRental.DAL.Models.Enums;
 using CarRental.Messaging;
@@ -28,16 +29,11 @@ public class BookingService(
         var car = await carRepository.GetByIdAsync(newBookingModel.CarId, cancellationToken);
         var customer = await customerRepository.GetByIdAsync(newBookingModel.CustomerId, cancellationToken);
 
-        var bookingEvent = new BookingCreatedEvent
+        var bookingEvent = _mapper.Map<BookingCreatedEvent>(newBookingModel, opts =>
         {
-            BookingId = newBookingModel.Id,
-            CustomerEmail = customer?.Email,
-            CustomerFirstName = customer?.FirstName,
-            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
-            StartDate = newBookingModel.StartDate,
-            EndDate = newBookingModel.EndDate,
-            TotalPrice = newBookingModel.TotalPrice
-        };
+            if (customer != null) opts.Items["Customer"] = customer;
+            if (car != null) opts.Items["Car"] = car;
+        });
 
         await PublishEventAsync(bookingEvent, cancellationToken);
 
@@ -50,20 +46,16 @@ public class BookingService(
         bookingEntity.BookingStatus = BookingStatusEnum.Confirmed;
         var updatedEntity = await _repository.UpdateAsync(bookingEntity, cancellationToken);
 
-        var customer = await customerRepository.GetByIdAsync(bookingEntity.CustomerId, cancellationToken);
-        var car = await carRepository.GetByIdAsync(bookingEntity.CarId, cancellationToken);
+        var customer = await customerRepository.GetByIdAsync(updatedEntity.CustomerId, cancellationToken);
+        var car = await carRepository.GetByIdAsync(updatedEntity.CarId, cancellationToken);
 
-        var confirmedEvent = new BookingConfirmedEvent
+        var confirmedEvent = _mapper.Map<BookingConfirmedEvent>(updatedEntity, opts =>
         {
-            BookingId = bookingEntity.Id,
-            CustomerEmail = customer?.Email,
-            CustomerFirstName = customer?.FirstName,
-            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
-            StartDate = bookingEntity.StartDate
-        };
+            if (customer != null) opts.Items["Customer"] = customer;
+            if (car != null) opts.Items["Car"] = car;
+        });
 
         await PublishEventAsync(confirmedEvent, cancellationToken);
-
         return _mapper.Map<BookingModel>(updatedEntity);
     }
 
@@ -76,14 +68,13 @@ public class BookingService(
         var customer = await customerRepository.GetByIdAsync(bookingEntity.CustomerId, cancellationToken);
         var car = await carRepository.GetByIdAsync(bookingEntity.CarId, cancellationToken);
 
-        var cancelledEvent = new BookingCancelledEvent
+        var cancelledEvent = _mapper.Map<BookingCancelledEvent>(updatedEntity, opts =>
         {
-            BookingId = bookingEntity.Id,
-            CustomerEmail = customer?.Email,
-            CustomerFirstName = customer?.FirstName,
-            CarModel = (car is not null) ? $"{car.Brand} {car.Model}" : null,
-            Reason = reason
-        };
+            if (customer != null) opts.Items["Customer"] = customer;
+            if (car != null) opts.Items["Car"] = car;
+        });
+
+        cancelledEvent.Reason = reason;
 
         await PublishEventAsync(cancelledEvent, cancellationToken);
 
