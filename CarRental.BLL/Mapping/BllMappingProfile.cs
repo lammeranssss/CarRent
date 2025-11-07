@@ -48,7 +48,6 @@ public class BllMappingProfile : Profile
 
         CreateMap<BookingEntity, BookingConfirmedEvent>()
             .ForMember(dest => dest.BookingId, opt => opt.MapFrom(src => src.Id))
-            // (StartDate - маппится автоматом)
             .ForMember(dest => dest.CustomerEmail, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.Email))
             .ForMember(dest => dest.CustomerFirstName, opt => opt.MapFrom((src, dest, destMember, context) =>
