@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace CarRental.DAL.DI;
 
-public static class DependencyRegistrar
+public static class DependencyRegister
 {
     public static IServiceCollection AddDalDependencies(
         this IServiceCollection services,

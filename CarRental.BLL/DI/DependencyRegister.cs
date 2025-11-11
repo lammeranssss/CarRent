@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CarRental.BLL.DI;
 
-public static class DependencyRegistrar
+public static class DependencyRegister
 {
     public static IServiceCollection AddBllDependencies(
         this IServiceCollection services, 

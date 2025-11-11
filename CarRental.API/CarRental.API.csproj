@@ -4,7 +4,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+	  <UserSecretsId>35d51fe8-96a6-4cbe-94c1-cd925b07544c</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\CarRental.BLL\CarRental.BLL.csproj" />
@@ -17,8 +18,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="15.0.1" />
+		<PackageReference Include="CarRental.Messaging" Version="1.1.0" />
+		<PackageReference Include="CarRental.Utilities" Version="1.1.0" />
 		<PackageReference Include="FluentValidation" Version="12.0.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
 			<PrivateAssets>all</PrivateAssets>

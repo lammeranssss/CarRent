@@ -54,4 +54,18 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
     {
         await _service.RemoveAsync(id, cancellationToken);
     }
+
+    [HttpPut(ApiRoutes.Id + "/cancel")]
+    public async Task<BookingResponse> CancelBooking(Guid id, [FromBody] CancelBookingRequest request, CancellationToken cancellationToken)
+    {
+        var updated = await _service.CancelBookingAsync(id, request?.Reason, cancellationToken);
+        return _mapper.Map<BookingResponse>(updated);
+    }
+
+    [HttpPut(ApiRoutes.Id + "/confirm")]
+    public async Task<BookingResponse> ConfirmBooking(Guid id, CancellationToken cancellationToken)
+    {
+        var updatedBookingModel = await _service.ConfirmBookingAsync(id, cancellationToken);
+        return _mapper.Map<BookingResponse>(updatedBookingModel);
+    }
 }
