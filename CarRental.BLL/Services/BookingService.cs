@@ -31,8 +31,8 @@ public class BookingService(
 
         var bookingEvent = _mapper.Map<BookingCreatedEvent>(newBookingModel, opts =>
         {
-            if (customer != null) opts.Items["Customer"] = customer;
-            if (car != null) opts.Items["Car"] = car;
+            if (customer is not null) opts.Items["Customer"] = customer;
+            if (car is not null) opts.Items["Car"] = car;
         });
 
         await PublishEventAsync(bookingEvent, cancellationToken);
@@ -51,8 +51,8 @@ public class BookingService(
 
         var confirmedEvent = _mapper.Map<BookingConfirmedEvent>(updatedEntity, opts =>
         {
-            if (customer != null) opts.Items["Customer"] = customer;
-            if (car != null) opts.Items["Car"] = car;
+            if (customer is not null) opts.Items["Customer"] = customer;
+            if (car is not null) opts.Items["Car"] = car;
         });
 
         await PublishEventAsync(confirmedEvent, cancellationToken);
@@ -70,8 +70,8 @@ public class BookingService(
 
         var cancelledEvent = _mapper.Map<BookingCancelledEvent>(updatedEntity, opts =>
         {
-            if (customer != null) opts.Items["Customer"] = customer;
-            if (car != null) opts.Items["Car"] = car;
+            if (customer is not null) opts.Items["Customer"] = customer;
+            if (car is not null) opts.Items["Car"] = car;
         });
 
         cancelledEvent.Reason = reason;

@@ -29,8 +29,8 @@ public class RentalService(
 
         var rentalStartedEvent = _mapper.Map<RentalStartedEvent>(newRentalModel, opts =>
         {
-            if (customer != null) opts.Items["Customer"] = customer;
-            if (car != null) opts.Items["Car"] = car;
+            if (customer is not null) opts.Items["Customer"] = customer;
+            if (car is not null) opts.Items["Car"] = car;
         });
 
         await PublishEventAsync(rentalStartedEvent, cancellationToken);
@@ -56,8 +56,8 @@ public class RentalService(
 
         var rentalCompletedEvent = _mapper.Map<RentalCompletedEvent>(updatedRentalModel, opts =>
         {
-            if (customer != null) opts.Items["Customer"] = customer;
-            if (car != null) opts.Items["Car"] = car;
+            if (customer is not null) opts.Items["Customer"] = customer;
+            if (car is not null) opts.Items["Car"] = car;
         });
 
         await PublishEventAsync(rentalCompletedEvent, cancellationToken);

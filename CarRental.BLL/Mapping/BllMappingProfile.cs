@@ -44,7 +44,7 @@ public class BllMappingProfile : Profile
             .ForMember(dest => dest.CustomerFirstName, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.FirstName))
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom((src, dest, destMember, context) =>
-                (context.Items["Car"] as CarEntity) != null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
+                (context.Items["Car"] as CarEntity) is not null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
 
         CreateMap<BookingEntity, BookingConfirmedEvent>()
             .ForMember(dest => dest.BookingId, opt => opt.MapFrom(src => src.Id))
@@ -53,7 +53,7 @@ public class BllMappingProfile : Profile
             .ForMember(dest => dest.CustomerFirstName, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.FirstName))
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom((src, dest, destMember, context) =>
-                (context.Items["Car"] as CarEntity) != null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
+                (context.Items["Car"] as CarEntity) is not null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
 
         CreateMap<BookingEntity, BookingCancelledEvent>()
             .ForMember(dest => dest.BookingId, opt => opt.MapFrom(src => src.Id))
@@ -62,7 +62,7 @@ public class BllMappingProfile : Profile
             .ForMember(dest => dest.CustomerFirstName, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.FirstName))
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom((src, dest, destMember, context) =>
-                (context.Items["Car"] as CarEntity) != null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
+                (context.Items["Car"] as CarEntity) is not null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
 
         CreateMap<RentalModel, RentalStartedEvent>()
             .ForMember(dest => dest.RentalId, opt => opt.MapFrom(src => src.Id))
@@ -71,7 +71,7 @@ public class BllMappingProfile : Profile
             .ForMember(dest => dest.CustomerFirstName, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.FirstName))
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom((src, dest, destMember, context) =>
-                (context.Items["Car"] as CarEntity) != null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null))
+                (context.Items["Car"] as CarEntity) is not null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null))
             .ForMember(dest => dest.CarLicensePlate, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Car"] as CarEntity)?.LicensePlate));
 
@@ -81,6 +81,6 @@ public class BllMappingProfile : Profile
             .ForMember(dest => dest.CustomerEmail, opt => opt.MapFrom((src, dest, destMember, context) =>
                 (context.Items["Customer"] as CustomerEntity)?.Email))
             .ForMember(dest => dest.CarModel, opt => opt.MapFrom((src, dest, destMember, context) =>
-                (context.Items["Car"] as CarEntity) != null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
+                (context.Items["Car"] as CarEntity) is not null ? $"{(context.Items["Car"] as CarEntity).Brand} {(context.Items["Car"] as CarEntity).Model}" : null));
     }
 }
