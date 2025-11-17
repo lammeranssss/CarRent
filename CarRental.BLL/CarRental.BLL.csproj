@@ -13,8 +13,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="15.0.1" />
-		<PackageReference Include="CarRental.Messaging" Version="1.2.0" />
-		<PackageReference Include="CarRental.Utilities" Version="1.2.0" />
+		<PackageReference Include="CarRental.Messaging" Version="1.1.0" />
+		<PackageReference Include="CarRental.Utilities" Version="1.1.0" />
 		<PackageReference Include="MassTransit" Version="8.5.5" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
 	</ItemGroup>
