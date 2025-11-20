@@ -2,23 +2,18 @@
 using CarRental.DAL.Models.Entities;
 using CarRental.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CarRental.DAL.DataContext;
-public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
-    : DbContext(options)
+public class CarRentalDbContext : DbContext
 {
-    public static async Task ApplyMigrationsAsync(IServiceProvider serviceProvider)
+    public CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
+        : base(options)
     {
-        using var scope = serviceProvider.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<CarRentalDbContext>();
-        if (context.Database.IsRelational())
-        {
-            var strategy = context.Database.CreateExecutionStrategy();
-            await strategy.ExecuteAsync(
-                async () => await context.Database.MigrateAsync()
-            );
-        }
+        if (Database.IsRelational())
+            Database.Migrate();
+        else
+            Database.EnsureCreated();
     }
 
     public DbSet<CustomerEntity> Customers { get; set; }
@@ -95,7 +90,7 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
     {
         var entries = ChangeTracker.Entries()
             .Where(e => e.Entity is BaseEntity &&
-                       (e.State == EntityState.Added || e.State == EntityState.Modified));
+                         (e.State == EntityState.Added || e.State == EntityState.Modified));
 
         foreach (var entityEntry in entries)
         {

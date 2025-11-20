@@ -11,8 +11,6 @@ builder.Services.AddApiDependencies(builder.Configuration);
 
 var app = builder.Build();
 
-await CarRentalDbContext.ApplyMigrationsAsync(app.Services);
-
 app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
