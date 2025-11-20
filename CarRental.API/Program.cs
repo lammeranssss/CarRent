@@ -1,5 +1,5 @@
 using CarRental.API.DI;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CarRental.DAL.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddApiDependencies(builder.Configuration);
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 
 app.UseGlobalExceptionHandler();
 

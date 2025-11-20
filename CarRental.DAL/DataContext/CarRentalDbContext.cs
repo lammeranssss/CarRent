@@ -2,14 +2,20 @@
 using CarRental.DAL.Models.Entities;
 using CarRental.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CarRental.DAL.DataContext;
-public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
-    : DbContext(options)
+public class CarRentalDbContext : DbContext
 {
+    public CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
+        : base(options)
+    {
+        if (Database.IsRelational())
+            Database.Migrate();
+        else
+            Database.EnsureCreated();
+    }
+
     public DbSet<CustomerEntity> Customers { get; set; }
     public DbSet<CarEntity> Cars { get; set; }
     public DbSet<LocationEntity> Locations { get; set; }
@@ -84,7 +90,7 @@ public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
     {
         var entries = ChangeTracker.Entries()
             .Where(e => e.Entity is BaseEntity &&
-                       (e.State == EntityState.Added || e.State == EntityState.Modified));
+                         (e.State == EntityState.Added || e.State == EntityState.Modified));
 
         foreach (var entityEntry in entries)
         {
