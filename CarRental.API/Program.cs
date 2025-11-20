@@ -1,5 +1,5 @@
 using CarRental.API.DI;
-using CarRental.API.Extensions;
+using CarRental.DAL.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.Services.AddApiDependencies(builder.Configuration);
 
 var app = builder.Build();
 
-app.ApplyMigrations();
+await CarRentalDbContext.ApplyMigrationsAsync(app.Services);
 
 app.UseGlobalExceptionHandler();
 

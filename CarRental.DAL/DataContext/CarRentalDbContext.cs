@@ -2,14 +2,25 @@
 using CarRental.DAL.Models.Entities;
 using CarRental.DAL.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CarRental.DAL.DataContext;
 public class CarRentalDbContext(DbContextOptions<CarRentalDbContext> options)
     : DbContext(options)
 {
+    public static async Task ApplyMigrationsAsync(IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<CarRentalDbContext>();
+        if (context.Database.IsRelational())
+        {
+            var strategy = context.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(
+                async () => await context.Database.MigrateAsync()
+            );
+        }
+    }
+
     public DbSet<CustomerEntity> Customers { get; set; }
     public DbSet<CarEntity> Cars { get; set; }
     public DbSet<LocationEntity> Locations { get; set; }
