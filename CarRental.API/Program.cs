@@ -15,6 +15,8 @@ app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 
 app.UseAuthorization();
