@@ -32,6 +32,7 @@ public class LocationsController(ILocationService service, IMapper mapper) : Con
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<LocationResponse> Create([FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<LocationModel>(request);
@@ -40,6 +41,7 @@ public class LocationsController(ILocationService service, IMapper mapper) : Con
     }
 
     [HttpPut(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task<LocationResponse> Update(Guid id, [FromBody] CreateLocationRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<LocationModel>(request);
@@ -49,6 +51,7 @@ public class LocationsController(ILocationService service, IMapper mapper) : Con
     }
 
     [HttpDelete(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

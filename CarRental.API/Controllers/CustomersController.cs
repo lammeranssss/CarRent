@@ -32,6 +32,7 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<CustomerResponse> Create([FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CustomerModel>(request);
@@ -40,6 +41,7 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
     }
 
     [HttpPut(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task<CustomerResponse> Update(Guid id, [FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CustomerModel>(request);
@@ -49,6 +51,7 @@ public class CustomersController(ICustomerService service, IMapper mapper) : Con
     }
 
     [HttpDelete(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

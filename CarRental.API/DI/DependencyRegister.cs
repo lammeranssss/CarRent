@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using CarRental.Utilities; 
 using CarRental.Utilities.Abstractions; 
 using CarRental.Utilities.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CarRental.API.DI;
 
@@ -33,6 +34,10 @@ public static class DependencyRegister
             {
                 options.Authority = configuration["Auth0:Domain"];
                 options.Audience = configuration["Auth0:Audience"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    RoleClaimType = "https://api.carrental.com/roles",
+                };
             });
         services.AddMassTransitForSending(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
