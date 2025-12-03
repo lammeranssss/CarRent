@@ -7,6 +7,7 @@ using CarRental.Messaging;
 using CarRental.Messaging.Events;
 using CarRental.Utilities.Abstractions;
 using CarRental.BLL.Extensions;
+using CarRental.DAL.Models.Enums;
 namespace CarRental.BLL.Services;
 
 public class RentalService(
@@ -53,6 +54,18 @@ public class RentalService(
         var car = (booking is not null) ? await carRepository.GetByIdAsync(booking.CarId, cancellationToken) : null;
         var customer = (booking is not null) ? await customerRepository.GetByIdAsync(booking.CustomerId, cancellationToken) : null;
         var kilometersDriven = updatedRentalModel.CalculateMileageUsed();
+
+        if (car is not null)    
+        {
+            var carModel = _mapper.Map<CarModel>(car);
+
+            carModel.Mileage = updatedRentalModel.FinalMileage;
+
+            carModel.CarStatus = carModel.RequiresMaintenance() ? CarStatus.Maintenance : CarStatus.Available;
+
+            _mapper.Map(carModel, car);
+            await carRepository.UpdateAsync(car, cancellationToken);
+        }
 
         var rentalCompletedEvent = _mapper.Map<RentalCompletedEvent>(updatedRentalModel, opts =>
         {

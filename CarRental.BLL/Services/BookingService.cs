@@ -23,7 +23,7 @@ public class BookingService(
 {
     public override async Task<BookingModel> AddAsync(BookingModel model, CancellationToken cancellationToken = default)
     {
-        model.BookingStatus = BookingStatusEnum.Pending;
+        model.Status = BookingStatus.Pending;
         var newBookingModel = await base.AddAsync(model, cancellationToken);
 
         var car = await carRepository.GetByIdAsync(newBookingModel.CarId, cancellationToken);
@@ -43,11 +43,19 @@ public class BookingService(
     public async Task<BookingModel> ConfirmBookingAsync(Guid bookingId, CancellationToken cancellationToken = default)
     {
         var bookingEntity = await _repository.GetByIdAsync(bookingId, cancellationToken) ?? throw new KeyNotFoundException("Booking not found");
-        bookingEntity.BookingStatus = BookingStatusEnum.Confirmed;
+        bookingEntity.BookingStatus = BookingStatus.Confirmed;
         var updatedEntity = await _repository.UpdateAsync(bookingEntity, cancellationToken);
 
         var customer = await customerRepository.GetByIdAsync(updatedEntity.CustomerId, cancellationToken);
         var car = await carRepository.GetByIdAsync(updatedEntity.CarId, cancellationToken);
+
+        if (car is not null)
+        {
+            var carModel = _mapper.Map<CarModel>(car);
+            carModel.CarStatus = CarStatus.Booked;
+            _mapper.Map(carModel, car);
+            await carRepository.UpdateAsync(car, cancellationToken);
+        }
 
         var confirmedEvent = _mapper.Map<BookingConfirmedEvent>(updatedEntity, opts =>
         {
@@ -62,11 +70,19 @@ public class BookingService(
     public async Task<BookingModel> CancelBookingAsync(Guid bookingId, string? reason, CancellationToken cancellationToken = default)
     {
         var bookingEntity = await _repository.GetByIdAsync(bookingId, cancellationToken) ?? throw new KeyNotFoundException("Booking not found");
-        bookingEntity.BookingStatus = BookingStatusEnum.Cancelled;
+        bookingEntity.BookingStatus = BookingStatus.Cancelled;
         var updatedEntity = await _repository.UpdateAsync(bookingEntity, cancellationToken);
 
         var customer = await customerRepository.GetByIdAsync(bookingEntity.CustomerId, cancellationToken);
         var car = await carRepository.GetByIdAsync(bookingEntity.CarId, cancellationToken);
+
+        if (car is not null)
+        {
+            var carModel = _mapper.Map<CarModel>(car);
+            carModel.CarStatus = CarStatus.Available;
+            _mapper.Map(carModel, car);
+            await carRepository.UpdateAsync(car, cancellationToken);
+        }
 
         var cancelledEvent = _mapper.Map<BookingCancelledEvent>(updatedEntity, opts =>
         {

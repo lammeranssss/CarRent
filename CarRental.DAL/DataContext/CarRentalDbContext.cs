@@ -26,12 +26,12 @@ public class CarRentalDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.HasPostgresEnum<BookingStatusEnum>();
-        modelBuilder.HasPostgresEnum<CarStatusEnum>();
+        modelBuilder.HasPostgresEnum<BookingStatus>();
+        modelBuilder.HasPostgresEnum<CarStatus>();
 
         modelBuilder.Entity<CarEntity>()
             .Property(c => c.CarStatus)
-            .HasDefaultValue(CarStatusEnum.Unknown);
+            .HasDefaultValue(CarStatus.Unknown);
 
         modelBuilder.Entity<CarEntity>()
             .HasIndex(c => c.LicensePlate)
@@ -39,7 +39,7 @@ public class CarRentalDbContext : DbContext
 
         modelBuilder.Entity<BookingEntity>()
             .Property(b => b.BookingStatus)
-            .HasDefaultValue(BookingStatusEnum.Unknown);
+            .HasDefaultValue(BookingStatus.Unknown);
 
         modelBuilder.Entity<BookingEntity>()
             .HasOne(b => b.Customer)

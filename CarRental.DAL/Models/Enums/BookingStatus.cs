@@ -1,5 +1,5 @@
 ﻿namespace CarRental.DAL.Models.Enums;
-public enum BookingStatusEnum
+public enum BookingStatus
 {
     Unknown = 0,
     Pending = 1,

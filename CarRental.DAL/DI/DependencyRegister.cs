@@ -21,8 +21,8 @@ public static class DependencyRegister
         services.AddDbContext<CarRentalDbContext>(options =>
             options.UseNpgsql(connectionString, npgsqlOptions =>
             {
-                npgsqlOptions.MapEnum<BookingStatusEnum>();
-                npgsqlOptions.MapEnum<CarStatusEnum>();
+                npgsqlOptions.MapEnum<BookingStatus>();
+                npgsqlOptions.MapEnum<CarStatus>();
             }));
 
         services.AddScoped<ICarRepository, CarRepository>();

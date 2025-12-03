@@ -16,7 +16,7 @@ public class CarEntity : BaseEntity
 
     public Guid LocationId { get; set; }
 
-    public CarStatusEnum CarStatus { get; set; }
+    public CarStatus CarStatus { get; set; }
 
     public decimal DailyRate { get; set; }
 

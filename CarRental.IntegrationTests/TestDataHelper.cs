@@ -21,7 +21,7 @@ public static class TestDataHelper
             LicensePlate = $"TEST{Guid.NewGuid():N}"[..8].ToUpper(),
             Color = "Black",
             LocationId = locationId ?? Guid.NewGuid(),
-            CarStatus = CarStatusEnum.Available,
+            CarStatus = CarStatus.Available,
             DailyRate = dailyRate ?? 50m,
             Mileage = 1000m
         };
@@ -72,7 +72,7 @@ public static class TestDataHelper
             StartDate = DateTime.Today.AddDays(1),
             EndDate = DateTime.Today.AddDays(5),
             TotalPrice = totalPrice ?? 200m,
-            BookingStatus = BookingStatusEnum.Pending
+            BookingStatus = BookingStatus.Pending
         };
     }
 

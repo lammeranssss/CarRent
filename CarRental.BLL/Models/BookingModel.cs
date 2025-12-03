@@ -9,8 +9,7 @@ public class BookingModel : BaseModel
     public Guid CustomerId { get; set; }
     public Guid CarId { get; set; }
     public decimal TotalPrice { get; set; }
-    public BookingStatusEnum BookingStatus { get; set; }
-
+    public BookingStatus Status { get; set; }
     public CustomerModel Customer { get; set; }
     public CarModel Car { get; set; } 
     public RentalModel Rental { get; set; } 

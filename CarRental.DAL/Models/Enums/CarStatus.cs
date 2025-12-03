@@ -1,5 +1,5 @@
 ﻿namespace CarRental.DAL.Models.Enums;
-public enum CarStatusEnum
+public enum CarStatus
 {
     Unknown = 0,
     Available = 1,

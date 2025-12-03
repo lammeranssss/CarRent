@@ -62,7 +62,7 @@ namespace CarRental.DAL.Migrations
                     LicensePlate = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<string>(type: "text", nullable: false),
                     LocationId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CarStatus = table.Column<CarStatusEnum>(type: "car_status_enum", nullable: false, defaultValue: CarStatusEnum.Unknown),
+                    CarStatus = table.Column<CarStatus>(type: "car_status_enum", nullable: false, defaultValue: CarStatus.Unknown),
                     DailyRate = table.Column<decimal>(type: "numeric", nullable: false),
                     Mileage = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -89,7 +89,7 @@ namespace CarRental.DAL.Migrations
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: false),
                     CarId = table.Column<Guid>(type: "uuid", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    BookingStatus = table.Column<BookingStatusEnum>(type: "booking_status_enum", nullable: false, defaultValue: BookingStatusEnum.Unknown),
+                    BookingStatus = table.Column<BookingStatus>(type: "booking_status_enum", nullable: false, defaultValue: BookingStatus.Unknown),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

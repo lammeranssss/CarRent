@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using CarRental.API.Constants;
 using CarRental.API.Models.Requests.Cars;
+using CarRental.DAL.Models.Enums;
 
 namespace CarRental.API.Validators.Cars;
 
@@ -30,5 +31,10 @@ public class CreateCarRequestValidator : AbstractValidator<CreateCarRequest>
 
         RuleFor(x => x.LocationId)
             .NotEmpty();
+
+        RuleFor(x => x.Status)
+            .IsInEnum()
+            .Must(s => s != CarStatus.Unknown)
+            .WithMessage(ValidatorMessages.EnumMustBeSpecifiedMessage(nameof(CarStatus)));
     }
 }
