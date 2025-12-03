@@ -5,7 +5,7 @@ namespace CarRental.BLL.Extensions;
 public static class LocationExtensions
 {
     public static int GetAvailableCarsCount(this LocationModel location) =>
-        location.Cars.Count(c => c.CarStatus == CarStatusEnum.Available);
+        location.Cars.Count(c => c.CarStatus == CarStatus.Available);
 
     public static bool CanAcceptReturns(this LocationModel location) => true;
 }

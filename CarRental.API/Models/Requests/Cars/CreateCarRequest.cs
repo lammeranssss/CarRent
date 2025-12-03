@@ -9,5 +9,5 @@ public record CreateCarRequest(
     string Color,
     Guid LocationId,
     decimal DailyRate,
-    CarStatusEnum CarStatus
+    CarStatus Status
 );

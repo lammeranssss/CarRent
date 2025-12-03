@@ -61,7 +61,7 @@ public class RentalService(
 
             carModel.Mileage = updatedRentalModel.FinalMileage;
 
-            carModel.CarStatus = carModel.RequiresMaintenance() ? CarStatusEnum.Maintenance : CarStatusEnum.Available;
+            carModel.CarStatus = carModel.RequiresMaintenance() ? CarStatus.Maintenance : CarStatus.Available;
 
             _mapper.Map(carModel, car);
             await carRepository.UpdateAsync(car, cancellationToken);

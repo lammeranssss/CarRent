@@ -31,10 +31,10 @@ namespace CarRental.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<BookingStatusEnum>("BookingStatus")
+                    b.Property<BookingStatus>("BookingStatus")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("booking_status_enum")
-                        .HasDefaultValue(BookingStatusEnum.Unknown);
+                        .HasDefaultValue(BookingStatus.Unknown);
 
                     b.Property<Guid>("CarId")
                         .HasColumnType("uuid");
@@ -76,10 +76,10 @@ namespace CarRental.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<CarStatusEnum>("CarStatus")
+                    b.Property<CarStatus>("CarStatus")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("car_status_enum")
-                        .HasDefaultValue(CarStatusEnum.Unknown);
+                        .HasDefaultValue(CarStatus.Unknown);
 
                     b.Property<string>("Color")
                         .IsRequired()

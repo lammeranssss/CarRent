@@ -32,9 +32,9 @@ public class CreateCarRequestValidator : AbstractValidator<CreateCarRequest>
         RuleFor(x => x.LocationId)
             .NotEmpty();
 
-        RuleFor(x => x.CarStatus)
+        RuleFor(x => x.Status)
             .IsInEnum()
-            .Must(s => s != CarStatusEnum.Unknown)
-            .WithMessage(ValidatorMessages.EnumMustBeSpecifiedMessage(nameof(CarStatusEnum)));
+            .Must(s => s != CarStatus.Unknown)
+            .WithMessage(ValidatorMessages.EnumMustBeSpecifiedMessage(nameof(CarStatus)));
     }
 }

@@ -23,7 +23,7 @@ public class BookingService(
 {
     public override async Task<BookingModel> AddAsync(BookingModel model, CancellationToken cancellationToken = default)
     {
-        model.BookingStatus = BookingStatusEnum.Pending;
+        model.BookingStatus = BookingStatus.Pending;
         var newBookingModel = await base.AddAsync(model, cancellationToken);
 
         var car = await carRepository.GetByIdAsync(newBookingModel.CarId, cancellationToken);
@@ -43,7 +43,7 @@ public class BookingService(
     public async Task<BookingModel> ConfirmBookingAsync(Guid bookingId, CancellationToken cancellationToken = default)
     {
         var bookingEntity = await _repository.GetByIdAsync(bookingId, cancellationToken) ?? throw new KeyNotFoundException("Booking not found");
-        bookingEntity.BookingStatus = BookingStatusEnum.Confirmed;
+        bookingEntity.BookingStatus = BookingStatus.Confirmed;
         var updatedEntity = await _repository.UpdateAsync(bookingEntity, cancellationToken);
 
         var customer = await customerRepository.GetByIdAsync(updatedEntity.CustomerId, cancellationToken);
@@ -51,7 +51,7 @@ public class BookingService(
 
         if (car is not null)
         {
-            car.CarStatus = CarStatusEnum.Booked;
+            car.CarStatus = CarStatus.Booked;
             await carRepository.UpdateAsync(car, cancellationToken);
         }
 
@@ -68,7 +68,7 @@ public class BookingService(
     public async Task<BookingModel> CancelBookingAsync(Guid bookingId, string? reason, CancellationToken cancellationToken = default)
     {
         var bookingEntity = await _repository.GetByIdAsync(bookingId, cancellationToken) ?? throw new KeyNotFoundException("Booking not found");
-        bookingEntity.BookingStatus = BookingStatusEnum.Cancelled;
+        bookingEntity.BookingStatus = BookingStatus.Cancelled;
         var updatedEntity = await _repository.UpdateAsync(bookingEntity, cancellationToken);
 
         var customer = await customerRepository.GetByIdAsync(bookingEntity.CustomerId, cancellationToken);
@@ -76,7 +76,9 @@ public class BookingService(
 
         if (car is not null)
         {
-            car.CarStatus = CarStatusEnum.Available;
+            var carModel = _mapper.Map<CarModel>(car);
+            carModel.CarStatus = CarStatus.Available;
+            _mapper.Map(carModel, car);
             await carRepository.UpdateAsync(car, cancellationToken);
         }
 

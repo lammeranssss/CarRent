@@ -14,7 +14,7 @@ public class BookingEntity : BaseEntity
 
     public decimal TotalPrice { get; set; }
 
-    public BookingStatusEnum BookingStatus { get; set; }
+    public BookingStatus BookingStatus { get; set; }
 
     public CustomerEntity? Customer { get; set; }
 
