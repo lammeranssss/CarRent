@@ -32,6 +32,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<CarResponse> Create([FromBody] CreateCarRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CarModel>(request);
@@ -40,6 +41,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
     }
 
     [HttpPut(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task<CarResponse> Update(Guid id, [FromBody] CreateCarRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<CarModel>(request);
@@ -49,6 +51,7 @@ public class CarsController(ICarService service, IMapper mapper) : ControllerBas
     }
 
     [HttpDelete(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

@@ -33,6 +33,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<BookingResponse> Create([FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<BookingModel>(request);
@@ -41,6 +42,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
     }
 
     [HttpPut(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task<BookingResponse> Update(Guid id, [FromBody] CreateBookingRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<BookingModel>(request);
@@ -50,6 +52,7 @@ public class BookingsController(IBookingService service, IMapper mapper) : Contr
     }
 
     [HttpDelete(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);

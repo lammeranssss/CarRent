@@ -32,6 +32,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<RentalResponse> Create([FromBody] CreateRentalRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<RentalModel>(request);
@@ -40,6 +41,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
     }
 
     [HttpPut(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task<RentalResponse> Update(Guid id, [FromBody] UpdateRentalRequest request, CancellationToken cancellationToken)
     {
         var model = _mapper.Map<RentalModel>(request);
@@ -49,6 +51,7 @@ public class RentalsController(IRentalService service, IMapper mapper) : Control
     }
 
     [HttpDelete(ApiRoutes.Id)]
+    [Authorize(Roles = "Admin")]
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
         await _service.RemoveAsync(id, cancellationToken);
