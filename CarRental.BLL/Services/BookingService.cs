@@ -49,6 +49,12 @@ public class BookingService(
         var customer = await customerRepository.GetByIdAsync(updatedEntity.CustomerId, cancellationToken);
         var car = await carRepository.GetByIdAsync(updatedEntity.CarId, cancellationToken);
 
+        if (car is not null)
+        {
+            car.CarStatus = CarStatusEnum.Booked;
+            await carRepository.UpdateAsync(car, cancellationToken);
+        }
+
         var confirmedEvent = _mapper.Map<BookingConfirmedEvent>(updatedEntity, opts =>
         {
             if (customer is not null) opts.Items["Customer"] = customer;
@@ -67,6 +73,12 @@ public class BookingService(
 
         var customer = await customerRepository.GetByIdAsync(bookingEntity.CustomerId, cancellationToken);
         var car = await carRepository.GetByIdAsync(bookingEntity.CarId, cancellationToken);
+
+        if (car is not null)
+        {
+            car.CarStatus = CarStatusEnum.Available;
+            await carRepository.UpdateAsync(car, cancellationToken);
+        }
 
         var cancelledEvent = _mapper.Map<BookingCancelledEvent>(updatedEntity, opts =>
         {

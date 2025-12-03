@@ -1,4 +1,6 @@
-﻿namespace CarRental.API.Models.Requests.Cars;
+﻿using CarRental.DAL.Models.Enums;
+
+namespace CarRental.API.Models.Requests.Cars;
 public record CreateCarRequest(
     string Brand,
     string Model,
@@ -6,5 +8,6 @@ public record CreateCarRequest(
     string LicensePlate,
     string Color,
     Guid LocationId,
-    decimal DailyRate
+    decimal DailyRate,
+    CarStatusEnum CarStatus
 );

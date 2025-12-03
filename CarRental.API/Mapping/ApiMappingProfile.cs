@@ -10,6 +10,7 @@ using CarRental.API.Models.Responses.Customers;
 using CarRental.API.Models.Responses.Locations;
 using CarRental.API.Models.Responses.Rentals;
 using CarRental.BLL.Models;
+using CarRental.DAL.Models.Enums;
 
 namespace CarRental.API.Mapping;
 

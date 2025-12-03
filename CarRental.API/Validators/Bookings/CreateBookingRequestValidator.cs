@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using CarRental.API.Models.Requests.Bookings;
+using CarRental.API.Constants;
+using CarRental.DAL.Models.Enums;
 
 namespace CarRental.API.Validators.Bookings;
 
