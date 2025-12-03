@@ -5,7 +5,7 @@ namespace CarRental.BLL.Extensions;
 public static class BookingExtensions
 {
     public static bool IsActive(this BookingModel booking) =>
-        booking.BookingStatus == BookingStatus.Confirmed &&
+        booking.Status == BookingStatus.Confirmed &&
         booking.StartDate <= DateTime.UtcNow &&
         booking.EndDate >= DateTime.UtcNow;
 
@@ -13,5 +13,5 @@ public static class BookingExtensions
         (booking.EndDate - booking.StartDate).Days;
 
     public static bool CanBeCancelled(this BookingModel booking) =>
-        booking.BookingStatus is BookingStatus.Pending or BookingStatus.Confirmed;
+        booking.Status is BookingStatus.Pending or BookingStatus.Confirmed;
 }

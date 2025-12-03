@@ -38,7 +38,7 @@ public class ApiMappingProfile : Profile
             .ForMember(dest => dest.CompletedBookingsCount, opt => opt.MapFrom(src => src.Bookings.Count));
 
         CreateMap<BookingModel, BookingResponse>()
-            .ForMember(dest => dest.BookingStatus, opt => opt.MapFrom(src => src.BookingStatus.ToString()))
+            .ForMember(dest => dest.BookingStatus, opt => opt.MapFrom(src => src.Status.ToString()))
             .ForMember(dest => dest.CustomerName, opt => opt.Ignore())
             .ForMember(dest => dest.CarDetails, opt => opt.MapFrom(src => $"{src.Car.Brand} {src.Car.Model} {src.Car.LicensePlate}"))
             .ForMember(dest => dest.DurationInDays, opt => opt.Ignore())

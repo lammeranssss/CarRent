@@ -23,7 +23,7 @@ public class BookingService(
 {
     public override async Task<BookingModel> AddAsync(BookingModel model, CancellationToken cancellationToken = default)
     {
-        model.BookingStatus = BookingStatus.Pending;
+        model.Status = BookingStatus.Pending;
         var newBookingModel = await base.AddAsync(model, cancellationToken);
 
         var car = await carRepository.GetByIdAsync(newBookingModel.CarId, cancellationToken);

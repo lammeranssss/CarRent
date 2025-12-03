@@ -8,8 +8,8 @@ public static class CarExtensions
         car.CarStatus == CarStatus.Available &&
         !car.Bookings.Any(b => b.StartDate <= endDate &&
                                b.EndDate >= startDate &&
-                               (b.BookingStatus == BookingStatus.Confirmed ||
-                                b.BookingStatus == BookingStatus.Pending));
+                               (b.Status == BookingStatus.Confirmed ||
+                                b.Status == BookingStatus.Pending));
 
     public static decimal CalculateRentalPrice(this CarModel car, int days) =>
         car.DailyRate * days;
