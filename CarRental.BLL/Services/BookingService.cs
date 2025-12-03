@@ -51,7 +51,9 @@ public class BookingService(
 
         if (car is not null)
         {
-            car.CarStatus = CarStatus.Booked;
+            var carModel = _mapper.Map<CarModel>(car);
+            carModel.CarStatus = CarStatus.Booked;
+            _mapper.Map(carModel, car);
             await carRepository.UpdateAsync(car, cancellationToken);
         }
 
